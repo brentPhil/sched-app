@@ -1,7 +1,5 @@
 import { Metadata } from "next"
-import Image from "next/image"
 import { SidebarNav } from "./components/SideBar-nav"
-import { Separator } from "@/components/ui/separator"
 
 export const metadata: Metadata = {
   title: "Forms",
@@ -22,6 +20,10 @@ const sidebarNavItems = [
     href: "/dashboard/account/courses",
   },
   {
+    title: "Rooms",
+    href: "/dashboard/account/rooms",
+  },
+  {
     title: "Faculty",
     href: "/dashboard/account/faculty",
   },
@@ -33,22 +35,19 @@ export default function SettingsLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
-      <div className="hidden space-y-6 p-10 pb-16 md:block">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
-          <p className="text-muted-foreground">
-            Manage your account settings and set e-mail preferences.
-          </p>
-        </div>
-        <Separator className="my-6" />
-        <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <aside className="-mx-4 lg:w-1/5">
-            <SidebarNav items={sidebarNavItems} />
-          </aside>
-          <div className="flex-1 lg:max-w-2xl">{children}</div>
-        </div>
+    <div className="flex h-[90vh] flex-col border rounded-md m-5">
+      <div className="space-y-0.5 border-b bg-card p-5">
+        <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
+        <p className="text-muted-foreground">
+          Manage your account settings and set e-mail preferences.
+        </p>
       </div>
-    </>
+      <div className="flex flex-col lg:flex-row h-full">
+        <aside className="lg:w-1/5 lg:border-r bg-card bottom-0 p-5">
+          <SidebarNav className=" border-b lg:border-none" items={sidebarNavItems} />
+        </aside>
+        <div className="flex-1 lg:max-w-4xl p-5">{children}</div>
+      </div>
+    </div>
   )
 }

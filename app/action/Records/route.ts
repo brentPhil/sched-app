@@ -1,10 +1,11 @@
+import { Database } from "@/types/supabase"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 // import { Records } from "@/types"
 
-const getRecords = async (): Promise<Records[]> => {
+export const getSubjects = async (): Promise<Records[]> => {
 
-  const supabase = createServerComponentClient({
+  const supabase = createServerComponentClient<Database>({
     cookies,
   })
 
@@ -19,5 +20,3 @@ const getRecords = async (): Promise<Records[]> => {
 
   return (data as any) || []
 }
-
-export default getRecords

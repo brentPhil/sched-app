@@ -3,11 +3,11 @@ import React from "react"
 
 export default function SideMenu() {
   return (
-    <div className="w-56 h-screen fixed z-50">
+    <div className="w-56 h-screen fixed hidden lg:block z-50">
       <Card className="h-full relative rounded-none">
         <CardHeader>
           <CardTitle>
-            LOGO HERE
+            EVSU-SUBSCHED
           </CardTitle>
         </CardHeader>
         <CardContent className="">

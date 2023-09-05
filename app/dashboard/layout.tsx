@@ -12,11 +12,9 @@ export default function RootLayout({
       <body>
         <Toaster />
         <SideMenu />
-        <div className=" flex gap-5">
-          <div className="w-full ps-56">
-            <NavBar />
-            {children}
-          </div>
+        <div className="w-full relative h-screen lg:ps-56">
+          <NavBar />
+          <div className="pt-16">{children}</div>
         </div>
       </body>
     </html>

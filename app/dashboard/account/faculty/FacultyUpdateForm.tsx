@@ -1,12 +1,11 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useFieldArray, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,63 +14,66 @@ import {
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
-import { ProfileFormValues, profileFormSchema } from "@/types/profile_types"
-import { Session } from "@supabase/supabase-js"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useState } from "react"
 import { PiSpinnerGap } from "react-icons/pi"
 import { useRouter } from "next/navigation"
+import { FacultyFormValues, facultyFormSchema } from "@/types/profile_types"
 import { Database } from "@/types/supabase "
 
-export function ProfileForm({ session }: { session?: Session | null }) {
+export function FacultyUpdateForm({ id }: { id: number }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [loadingData, setLoadingData] = useState(false)
   const supabase = createClientComponentClient<Database>()
 
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
+  const form = useForm<FacultyFormValues>({
+    resolver: zodResolver(facultyFormSchema),
     defaultValues: async () => {
       setLoadingData(true)
 
-      const { data, error } = await supabase
+      const { data: faculty, error } = await supabase
         .from("users")
-        .select("*")
-        .eq("id", session?.user.id!)
+        .select()
+        .eq("id", id)
         .single()
 
       if (error) {
         toast({
-          title: "Error fetching user",
+          title: "Error fetching profile",
           description: error.message,
+          variant: "destructive",
         })
         setLoadingData(false)
       }
-      data && setLoadingData(false)
+
+      faculty && setLoadingData(false)
+
       return {
-        email: data?.email ?? "",
-        first_name: data?.first_name ?? "",
-        last_name: data?.last_name ?? "",
-        username: data?.username ?? "",
-        address: data?.address ?? "",
-        contact_no: data?.contact_no ?? "",
+        first_name: faculty?.first_name ?? "",
+        last_name: faculty?.last_name ?? "",
+        username: faculty?.username ?? "",
+        address: faculty?.address ?? "",
+        contact_no: faculty?.contact_no ?? "",
+        email: faculty?.email ?? "",
       }
     },
   })
 
-  async function updateProfile(value: ProfileFormValues) {
+  async function updateProfile(value: FacultyFormValues) {
     setLoading(true)
     let { data, error } = await supabase
       .from("users")
       .update({
+        username: value.username,
         first_name: value.first_name,
         last_name: value.last_name,
-        username: value.username,
         address: value.address,
+        role: 1,
         contact_no: value.contact_no,
         updated_at: new Date().toISOString(),
       })
-      .eq("id", session?.user.id!)
+      .eq("id", id)
       .select()
 
     if (error) {
@@ -102,7 +104,11 @@ export function ProfileForm({ session }: { session?: Session | null }) {
             <FormItem>
               <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  disabled={loadingData}
+                  placeholder={loadingData ? "loading data..." : ""}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -176,9 +182,10 @@ export function ProfileForm({ session }: { session?: Session | null }) {
             </FormItem>
           )}
         />
-        <Button type="submit">
+
+        <Button type="submit" className="w-full">
           {loading && <PiSpinnerGap className="animate-spin mr-3" size={20} />}
-          Update profile
+          Update Faculty
         </Button>
       </form>
     </Form>

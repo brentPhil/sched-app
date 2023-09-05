@@ -15,8 +15,8 @@ export default async function NavBar() {
   const profile = await getProfileInfo()
 
   return (
-    <nav className=" w-full py-3 px-5 flex justify-between border items-center">
-      <div className="w-56">LOGO HERE</div>
+    <nav className=" py-3 px-5 right-0 left-0 lg:pl-56 flex justify-between fixed bg-card border items-center">
+      <div className="w-56 lg:px-5">LOGO HERE</div>
       <div className="flex gap-5 h-fit">
         <div className="w-56"></div>
         <UserNav session={session} profile={profile} />

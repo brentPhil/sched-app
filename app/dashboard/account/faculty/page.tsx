@@ -2,16 +2,16 @@ import React from "react"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 import { toast } from "@/components/ui/use-toast"
-import { SubjectCols } from "./subjectCols"
 import { DataTable } from "../components/DataTable"
 import { Database } from "@/types/supabase "
-import AddDailog from "../components/AddDialog"
+import { FacultyCols } from "./facultyCols"
 
-async function getTasks(){
+async function getData() {
   const supabase = createServerComponentClient<Database>({ cookies })
   let { data, error } = await supabase
-    .from("subjects")
+    .from("users")
     .select()
+    .eq("role", 1)
     .order("id", { ascending: true })
 
   error && toast({ title: error.message, description: error.message })
@@ -20,13 +20,12 @@ async function getTasks(){
 }
 
 export default async function page() {
-  const tasks = await getTasks()
+  const data = await getData()
 
   return (
     <div className="w-full lg:flex gap-3">
-      <div className="flex flex-col gap-3 bg-card">
-        <AddDailog table='Subject' />
-        <DataTable data={tasks} columns={SubjectCols} />
+      <div className="bg-card">
+        <DataTable data={data} columns={FacultyCols} />
       </div>
     </div>
   )

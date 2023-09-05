@@ -49,7 +49,13 @@ export function ModeToggle() {
   )
 }
 
-export function UserNav({ session, profile }: { session: Session | null, profile: any }) {
+export function UserNav({
+  session,
+  profile,
+}: {
+  session: Session | null
+  profile: any
+}) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const signOut = async () => {
@@ -70,7 +76,9 @@ export function UserNav({ session, profile }: { session: Session | null, profile
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{profile?.username}</p>
+            <p className="text-sm font-medium leading-none">
+              {profile?.username}
+            </p>
             <p className="text-xs leading-none text-muted-foreground">
               {session?.user.email}
             </p>
@@ -81,7 +89,9 @@ export function UserNav({ session, profile }: { session: Session | null, profile
           <Link href="/dashboard/account">
             <DropdownMenuItem>Account</DropdownMenuItem>
           </Link>
-          <DropdownMenuItem>Faculty</DropdownMenuItem>
+          <Link href="/dashboard/account/faculty">
+            <DropdownMenuItem>Faculty</DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={signOut}>
