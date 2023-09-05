@@ -1,9 +1,3 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import AuthForm from './auth-form'
-import { Database } from '@/types/supabase'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { useEffect } from 'react'
 import { LoginForm } from './LoginForm'
 
 export default function Home() {

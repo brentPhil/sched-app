@@ -18,9 +18,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Session } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { Database } from "@/types/supabase"
 import Link from "next/link"
-import getProfileInfo from "@/app/action/getProfileInfo/route"
+import { Database } from "@/types/supabase "
 
 export function ModeToggle() {
   const { setTheme } = useTheme()
@@ -50,11 +49,11 @@ export function ModeToggle() {
 }
 
 export function UserNav({
-  session,
-  profile,
+  username,
+  email,
 }: {
-  session: Session | null
-  profile: any
+  username: string | null | undefined
+  email: string | null | undefined
 }) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
@@ -76,11 +75,9 @@ export function UserNav({
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">
-              {profile?.username}
-            </p>
+            <p className="text-sm font-medium leading-none">{username}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              {session?.user.email}
+              {email}
             </p>
           </div>
         </DropdownMenuLabel>

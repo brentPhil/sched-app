@@ -5,6 +5,8 @@ import { Database } from "@/types/supabase "
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 
+export const dynamic = "force-dynamic"
+
 export default async function Account() {
   const supabase = createServerComponentClient<Database>({ cookies })
 

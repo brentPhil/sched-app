@@ -8,6 +8,8 @@ import { RoomCols } from "./roomCols"
 import { Database } from "@/types/supabase "
 import AddDailog from "../components/AddDialog"
 
+export const dynamic = "force-dynamic"
+
 async function getData(){
   const supabase = createServerComponentClient<Database>({ cookies })
   let { data, error } = await supabase

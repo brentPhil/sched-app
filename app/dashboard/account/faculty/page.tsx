@@ -6,6 +6,8 @@ import { DataTable } from "../components/DataTable"
 import { Database } from "@/types/supabase "
 import { FacultyCols } from "./facultyCols"
 
+export const dynamic = "force-dynamic"
+
 async function getData() {
   const supabase = createServerComponentClient<Database>({ cookies })
   let { data, error } = await supabase

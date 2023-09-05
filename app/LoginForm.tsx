@@ -26,8 +26,8 @@ import { useState } from "react"
 import { PiSpinner } from "react-icons/pi"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { Database } from "@/types/supabase"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { Database } from "@/types/supabase "
 
 const formSchema = z.object({
   email: z.string().min(2, "Email required").email(),

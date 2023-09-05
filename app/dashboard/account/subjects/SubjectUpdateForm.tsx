@@ -14,13 +14,13 @@ import {
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
-import { Database } from "@/types/supabase"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useState } from "react"
 import { PiSpinnerGap } from "react-icons/pi"
 import { useRouter } from "next/navigation"
 import { SubjectFormValues, subjectFormSchema } from "@/types/profile_types"
 import { Textarea } from "@/components/ui/textarea"
+import { Database } from "@/types/supabase "
 
 export function SubjectUpdateForm({ id }: { id: number }) {
   const router = useRouter()
