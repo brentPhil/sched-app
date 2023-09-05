@@ -1,33 +1,37 @@
-import React from "react"
+import { cache } from "react"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 import { toast } from "@/components/ui/use-toast"
 import { DataTable } from "../components/DataTable"
 import { CourseCols } from "./courseCols"
-import { Database } from "@/types/supabase "
 import AddDailog from "../components/AddDialog"
+import { Database } from "@/types/supabase "
 
-export const dynamic = "force-dynamic"
-
-async function getData(){
-  const supabase = createServerComponentClient<Database>({ cookies })
+async function getData() {
+  const cookieStore = cookies()
+  const supabase = createServerComponentClient<Database>({
+    cookies: () => cookieStore,
+  })
   let { data, error } = await supabase
     .from("courses")
     .select()
     .order("id", { ascending: true })
 
-  error && toast({ title: error.message, description: error.message })
+  if (error) {
+    toast({ title: error.message, description: error.message })
+    return []
+  }
 
-  return (data as any) || []
+  return data || []
 }
 
-export default async function page() {
+export default async function Page() {
   const data = await getData()
 
   return (
     <div className="w-full lg:flex gap-3">
       <div className="flex flex-col gap-3 bg-card">
-          <AddDailog table="Course" />
+        <AddDailog table="Course" />
         <DataTable data={data} columns={CourseCols} />
       </div>
     </div>

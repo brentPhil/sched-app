@@ -1,4 +1,4 @@
-import React from "react"
+import React, { cache } from "react"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 import { toast } from "@/components/ui/use-toast"
@@ -7,10 +7,11 @@ import { DataTable } from "../components/DataTable"
 import { Database } from "@/types/supabase "
 import AddDailog from "../components/AddDialog"
 
-export const dynamic = "force-dynamic"
-
-async function getTasks(){
-  const supabase = createServerComponentClient<Database>({ cookies })
+async function getTasks() {
+  const cookieStore = cookies()
+  const supabase = createServerComponentClient<Database>({
+    cookies: () => cookieStore,
+  })
   let { data, error } = await supabase
     .from("subjects")
     .select()
@@ -27,7 +28,7 @@ export default async function page() {
   return (
     <div className="w-full lg:flex gap-3">
       <div className="flex flex-col gap-3 bg-card">
-        <AddDailog table='Subject' />
+        <AddDailog table="Subject" />
         <DataTable data={tasks} columns={SubjectCols} />
       </div>
     </div>

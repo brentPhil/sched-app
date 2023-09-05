@@ -1,14 +1,18 @@
-import React from "react"
+import React, { cache } from "react"
 import { ModeToggle, UserNav } from "./Dropdown"
 import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "@/types/supabase "
 import { toast } from "@/components/ui/use-toast"
 
-export const dynamic = "force-dynamic"
+export const createServerSupabaseClient = cache(() => {
+  const cookieStore = cookies()
+  return createServerComponentClient<Database>({ cookies: () => cookieStore })
+})
+
 
 export default async function NavBar() {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const supabase = createServerSupabaseClient()
   const {
     data: { session },
   } = await supabase.auth.getSession()

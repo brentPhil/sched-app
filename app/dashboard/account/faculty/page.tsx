@@ -1,4 +1,4 @@
-import React from "react"
+import React, { cache } from "react"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 import { toast } from "@/components/ui/use-toast"
@@ -6,10 +6,11 @@ import { DataTable } from "../components/DataTable"
 import { Database } from "@/types/supabase "
 import { FacultyCols } from "./facultyCols"
 
-export const dynamic = "force-dynamic"
-
 async function getData() {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const cookieStore = cookies()
+  const supabase = createServerComponentClient<Database>({
+    cookies: () => cookieStore,
+  })
   let { data, error } = await supabase
     .from("users")
     .select()
