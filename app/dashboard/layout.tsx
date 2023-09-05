@@ -12,7 +12,7 @@ export default function RootLayout({
       <body>
         <Toaster />
         <SideMenu />
-        <div className="w-full relative h-screen lg:ps-56">
+        <div className="w-full relative h-screen lg:ps-60 ps-16">
           <NavBar />
           <div className="pt-16">{children}</div>
         </div>

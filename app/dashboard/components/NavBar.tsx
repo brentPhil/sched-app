@@ -26,10 +26,8 @@ export default async function NavBar() {
   error && toast({ title: error.message, description: error.message })
 
   return (
-    <nav className=" py-3 px-5 right-0 left-0 lg:pl-56 flex justify-between fixed bg-card border items-center">
-      <div className="w-56 lg:px-5">LOGO HERE</div>
+    <nav className=" py-3 px-5 border right-0 left-0 lg:pl-60 ps-16 flex justify-end fixed items-center">
       <div className="flex gap-5 h-fit">
-        <div className="w-56"></div>
         <UserNav username={data?.username} email={data?.email} />
         <ModeToggle />
       </div>

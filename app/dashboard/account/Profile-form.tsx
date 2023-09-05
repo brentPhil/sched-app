@@ -94,7 +94,7 @@ export function ProfileForm({ session }: { session?: Session | null }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(updateProfile)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(updateProfile)} className="space-y-5">
         <FormField
           control={form.control}
           name="first_name"
@@ -176,7 +176,7 @@ export function ProfileForm({ session }: { session?: Session | null }) {
             </FormItem>
           )}
         />
-        <Button type="submit">
+        <Button type="submit" className="w-full">
           {loading && <PiSpinnerGap className="animate-spin mr-3" size={20} />}
           Update profile
         </Button>
