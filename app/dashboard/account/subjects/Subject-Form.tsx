@@ -73,7 +73,7 @@ export function SubjectForm({ session }: { session?: Session | null }) {
           name="subject"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subject</FormLabel>
+              <FormLabel>Subjcode</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>

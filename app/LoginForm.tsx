@@ -35,7 +35,6 @@ const formSchema = z.object({
 })
 
 export const LoginForm = () => {
-  
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
 
@@ -110,6 +109,7 @@ export const LoginForm = () => {
           <Separator className="my-5" />
           <CardFooter>
             <Button
+              type="submit"
               variant="default"
               className="w-full"
               size="lg"

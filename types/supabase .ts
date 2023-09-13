@@ -33,6 +33,31 @@ export interface Database {
         }
         Relationships: []
       }
+      days_of_weak: {
+        Row: {
+          day: string | null
+          id: number
+          sched_id: number | null
+        }
+        Insert: {
+          day?: string | null
+          id?: number
+          sched_id?: number | null
+        }
+        Update: {
+          day?: string | null
+          id?: number
+          sched_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "days_of_weak_sched_id_fkey"
+            columns: ["sched_id"]
+            referencedRelation: "schedules"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       roles: {
         Row: {
           id: number
@@ -77,40 +102,52 @@ export interface Database {
           course_id: number | null
           created_at: string | null
           faculty_id: string | null
+          from_month: string | null
           id: number
           room_id: number | null
-          schedule_date: string
           subject_id: number | null
           time_from: string
           time_to: string
+          to_month: string | null
+          type: string | null
         }
         Insert: {
           course_id?: number | null
           created_at?: string | null
           faculty_id?: string | null
+          from_month?: string | null
           id?: never
           room_id?: number | null
-          schedule_date: string
           subject_id?: number | null
           time_from: string
           time_to: string
+          to_month?: string | null
+          type?: string | null
         }
         Update: {
           course_id?: number | null
           created_at?: string | null
           faculty_id?: string | null
+          from_month?: string | null
           id?: never
           room_id?: number | null
-          schedule_date?: string
           subject_id?: number | null
           time_from?: string
           time_to?: string
+          to_month?: string | null
+          type?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "schedules_course_id_fkey"
             columns: ["course_id"]
             referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "schedules_faculty_id_fkey"
+            columns: ["faculty_id"]
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
@@ -159,7 +196,9 @@ export interface Database {
           first_name: string | null
           id: string
           last_name: string | null
+          middle_initial: string
           role: number | null
+          updated_at: string | null
           username: string | null
         }
         Insert: {
@@ -169,7 +208,9 @@ export interface Database {
           first_name?: string | null
           id: string
           last_name?: string | null
+          middle_initial: string
           role?: number | null
+          updated_at?: string | null
           username?: string | null
         }
         Update: {
@@ -179,7 +220,9 @@ export interface Database {
           first_name?: string | null
           id?: string
           last_name?: string | null
+          middle_initial: string
           role?: number | null
+          updated_at?: string | null
           username?: string | null
         }
         Relationships: [
