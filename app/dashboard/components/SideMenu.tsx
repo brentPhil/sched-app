@@ -53,7 +53,7 @@ export default function SideMenu() {
           <LinkButton
             icon={HiOutlineCalendar}
             name="Schedule"
-            href="/"
+            href="/dashboard/calendar"
           />
         </CardContent>
         <CardFooter></CardFooter>

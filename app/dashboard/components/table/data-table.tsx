@@ -36,7 +36,7 @@ import { capitalize } from "./utils"
 import { BsChevronDown, BsThreeDotsVertical } from "react-icons/bs"
 import { AiOutlinePlus } from "react-icons/ai"
 import { BiSearch } from "react-icons/bi"
-import NewSched from "../modal/NewSched"
+import NewSched from "../../calendar/modal/NewSched"
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -260,10 +260,7 @@ export default function Data_table() {
               </DropdownMenu>
             </Dropdown>
             {/* //Add Button */}
-            <Button
-              color="primary">
-              Add New
-            </Button>
+            <Button color="primary">Add New</Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -288,7 +285,6 @@ export default function Data_table() {
             </SelectItem>
           </Select>
         </div>
-
       </div>
     )
   }, [

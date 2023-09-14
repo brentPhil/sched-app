@@ -1,8 +1,8 @@
 'use client'
 
-import useNewSched from "@/app/hooks/useSchedModal"
+import {useNewSched} from "@/app/hooks/useSchedModal"
 import { CardTitle } from "@/components/ui/card"
-import { Button, useDisclosure } from "@nextui-org/react"
+import { Button } from "@nextui-org/react"
 import { PlusIcon } from "@radix-ui/react-icons"
 
 interface CalHeaderProps {

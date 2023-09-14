@@ -15,7 +15,7 @@ import {
   Textarea,
   Checkbox,
 } from "@nextui-org/react"
-import FormInput from "../forms/NewSched"
+import FormInput from "../../components/forms/NewSched"
 import {
   Form,
   FormControl,
@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/form"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import useNewSched from "@/app/hooks/useSchedModal"
+import { useNewSched } from "@/app/hooks/useSchedModal"
 import { toast } from "@/components/ui/use-toast"
 import { SchedformPayload, SchedformSchema } from "@/types/zodFormSchema"
 import { Separator } from "@/components/ui/separator"
@@ -210,9 +210,7 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                                   defaultValue={field.value}
                                   onChange={field.onChange}>
                                   {(data: any) => (
-                                    <SelectItem
-                                      key={data.id}
-                                      value={data.type}>
+                                    <SelectItem key={data.id} value={data.type}>
                                       {data.type}
                                     </SelectItem>
                                   )}
