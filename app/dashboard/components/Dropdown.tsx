@@ -19,7 +19,7 @@ import { Session } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import Link from "next/link"
-import { Database } from "@/types/supabase "
+import { Database } from "@/types/supabase"
 
 export function ModeToggle() {
   const { setTheme } = useTheme()

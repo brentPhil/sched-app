@@ -3,7 +3,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 import { toast } from "@/components/ui/use-toast"
 import { DataTable } from "../components/DataTable"
-import { Database } from "@/types/supabase "
+import { Database } from "@/types/supabase"
 import { FacultyCols } from "./facultyCols"
 
 async function getData() {

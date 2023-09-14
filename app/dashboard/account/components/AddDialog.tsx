@@ -20,16 +20,16 @@ const AddDailog: React.FC<AddDailogProps> = ({ table }) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant='secondary'
+          variant="secondary"
           className="!rounded-md w-fit text-primary hover:text-primary">
           <BsDatabaseAdd size={20} className="mr-2" /> Add {table}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add profile</DialogTitle>
+          <DialogTitle>Add {table}</DialogTitle>
           <DialogDescription>
-            Make changes to your Subjects here.
+            Add a new {table}.
           </DialogDescription>
         </DialogHeader>
         {table === "Course" ? (

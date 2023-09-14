@@ -21,7 +21,7 @@ import { useState } from "react"
 import { PiSpinnerGap } from "react-icons/pi"
 import { useRouter } from "next/navigation"
 import { Textarea } from "@/components/ui/textarea"
-import { Database } from "@/types/supabase "
+import { Database } from "@/types/supabase"
 
 export function CourseForm({ session }: { session?: Session | null }) {
   const router = useRouter()

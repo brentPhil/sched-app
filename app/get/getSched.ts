@@ -1,17 +1,17 @@
 import { Database } from "@/types/supabase"
-import { Room } from "@/types/types"
+import { Sched } from "@/types/types"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 
-const getRooms = async (): Promise<Room[]> => {
+const getSched = async (): Promise<Sched[]> => {
   const cookieStore = cookies()
   const supabase = createServerComponentClient<Database>({
     cookies: () => cookieStore,
   })
 
   const { data, error } = await supabase
-    .from("rooms")
-    .select("*")
+    .from("schedules")
+    .select("*, subjects(*), rooms(*), courses(*), users(*)")
     .order("id", { ascending: true })
 
   if (error) {
@@ -21,4 +21,4 @@ const getRooms = async (): Promise<Room[]> => {
   return (data as any) || []
 }
 
-export default getRooms
+export default getSched

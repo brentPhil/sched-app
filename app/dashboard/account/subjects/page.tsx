@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 import { toast } from "@/components/ui/use-toast"
 import { SubjectCols } from "./subjectCols"
 import { DataTable } from "../components/DataTable"
-import { Database } from "@/types/supabase "
+import { Database } from "@/types/supabase"
 import AddDailog from "../components/AddDialog"
 
 async function getTasks() {

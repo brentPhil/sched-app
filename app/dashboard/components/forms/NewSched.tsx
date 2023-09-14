@@ -62,9 +62,8 @@ const FormInput: React.FC<FormInputProps> = ({
                 label="Assigned to"
                 defaultValue={field.value}
                 onChange={field.onChange}
-                variant="underlined"
+                placeholder="Select faculty member"
                 classNames={{
-                  label: "group-data-[filled=true]:-translate-y-6",
                   trigger: "min-h-unit-16",
                   listboxWrapper: "max-h-[400px]",
                 }}
@@ -85,15 +84,14 @@ const FormInput: React.FC<FormInputProps> = ({
             ) : (
               <Select
                 size="sm"
-                variant="underlined"
                 defaultValue={field.value}
                 onChange={field.onChange}
                 label={label}
-                className="max-w-xs rounded">
+                className="rounded">
                 {data?.map((option: any) => (
                   <SelectItem
                     key={option.id}
-                    value={`${option.id}`}
+                    value={option.id}
                     className=" capitalize">
                     {dataType === "sub"
                       ? option.subject

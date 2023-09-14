@@ -101,41 +101,50 @@ export interface Database {
         Row: {
           course_id: number | null
           created_at: string | null
+          daysOfWeek: string | null
           faculty_id: string | null
           from_month: string | null
           id: number
           room_id: number | null
+          sched_desc: string | null
+          sched_type: string | null
           subject_id: number | null
           time_from: string
           time_to: string
           to_month: string | null
-          type: string | null
+          updated_at: string | null
         }
         Insert: {
           course_id?: number | null
           created_at?: string | null
+          daysOfWeek?: string | null
           faculty_id?: string | null
           from_month?: string | null
           id?: never
           room_id?: number | null
+          sched_desc?: string | null
+          sched_type?: string | null
           subject_id?: number | null
           time_from: string
           time_to: string
           to_month?: string | null
-          type?: string | null
+          updated_at?: string | null
         }
         Update: {
           course_id?: number | null
           created_at?: string | null
+          daysOfWeek?: string | null
           faculty_id?: string | null
           from_month?: string | null
           id?: never
           room_id?: number | null
+          sched_desc?: string | null
+          sched_type?: string | null
           subject_id?: number | null
           time_from?: string
           time_to?: string
           to_month?: string | null
-          type?: string | null
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -196,7 +205,7 @@ export interface Database {
           first_name: string | null
           id: string
           last_name: string | null
-          middle_initial: string
+          middle_initial: string | null
           role: number | null
           updated_at: string | null
           username: string | null
@@ -208,7 +217,7 @@ export interface Database {
           first_name?: string | null
           id: string
           last_name?: string | null
-          middle_initial: string
+          middle_initial?: string | null
           role?: number | null
           updated_at?: string | null
           username?: string | null
@@ -220,7 +229,7 @@ export interface Database {
           first_name?: string | null
           id?: string
           last_name?: string | null
-          middle_initial: string
+          middle_initial?: string | null
           role?: number | null
           updated_at?: string | null
           username?: string | null

@@ -19,7 +19,7 @@ import { useState } from "react"
 import { PiSpinnerGap } from "react-icons/pi"
 import { useRouter } from "next/navigation"
 import { FacultyFormValues, facultyFormSchema } from "@/types/profile_types"
-import { Database } from "@/types/supabase "
+import { Database } from "@/types/supabase"
 
 export function FacultyUpdateForm({ id }: { id: number }) {
   const router = useRouter()

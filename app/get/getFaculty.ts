@@ -1,7 +1,7 @@
-import { Database } from "@/types/supabase ";
-import { faculty } from "@/types/types";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { Database } from "@/types/supabase"
+import { faculty } from "@/types/types"
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { cookies } from "next/headers"
 
 const getFaculty = async (): Promise<faculty[]> => {
   const cookieStore = cookies()

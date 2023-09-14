@@ -34,3 +34,20 @@ export interface faculty {
   updated_at: string | null
   username: string | null
 }
+export interface Sched {
+  course_id: number | null
+  created_at: string | null
+  daysOfWeek: string | null
+  faculty_id: string | null
+  from_month: string | null
+  id: number
+  room_id: number | null
+  sched_desc: string | null
+  sched_type: string | null
+  subject_id: number | null
+  time_from: string
+  time_to: string
+  to_month: string | null
+  updated_at: string | null
+}
+

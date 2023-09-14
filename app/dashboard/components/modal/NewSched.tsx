@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import React, { useEffect } from "react"
 import {
   Modal,
   ModalContent,
@@ -7,10 +7,8 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  useDisclosure,
   Input,
   Select,
-  SelectedItems,
   SelectItem,
   Chip,
   Selection,
@@ -33,6 +31,8 @@ import useNewSched from "@/app/hooks/useSchedModal"
 import { toast } from "@/components/ui/use-toast"
 import { SchedformPayload, SchedformSchema } from "@/types/zodFormSchema"
 import { Separator } from "@/components/ui/separator"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { Database } from "@/types/supabase"
 
 const daysOfWeek = [
   { id: 1, day: "Sunday" },
@@ -42,6 +42,12 @@ const daysOfWeek = [
   { id: 5, day: "Thursday" },
   { id: 6, day: "Friday" },
   { id: 7, day: "Saturday" },
+]
+const schedType = [
+  { id: 1, type: "Class" },
+  { id: 2, type: "Event" },
+  { id: 3, type: "Meeting" },
+  { id: 4, type: "Other" },
 ]
 
 interface NewSchedProps {
@@ -54,23 +60,55 @@ interface NewSchedProps {
 const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
   const { isOpen, onOpenChange } = useNewSched()
   const [values, setValues] = React.useState<Selection>(new Set([]))
-  const [isSelected, setIsSelected] = React.useState(false)
+
+  const supabase = createClientComponentClient<Database>()
 
   const form = useForm<SchedformPayload>({
     resolver: zodResolver(SchedformSchema),
+    defaultValues: {
+      weeklySched: true,
+    },
   })
-
+  const isSelected = form.watch("weeklySched")
   // 2. Define a submit handler.
-  function onSubmit(values: SchedformPayload) {
-    toast({
-      title: "data",
-      description: JSON.stringify(values),
-    })
+  async function onSubmit(values: SchedformPayload) {
+    let { data, error } = await supabase
+      .from("schedules")
+      .insert({
+        faculty_id: values.faculty_id,
+        room_id: values.room_id,
+        subject_id: values.subject_id,
+        course_id: values.course_id,
+        sched_type: values.sched_type,
+        daysOfWeek: values.daysOfWeek,
+        from_month: values.from_month,
+        to_month: values.to_month,
+        time_from: values.time_from,
+        time_to: values.time_to,
+        sched_desc: values.sched_Desc,
+      })
+      .select()
+
+    error &&
+      toast({
+        title: "error",
+        description: error.message,
+      })
+
+    data &&
+      toast({
+        title: "Schedule has been added",
+      })
   }
 
-  const setWeekly = () => {
-    form.setValue("weeklySched", isSelected)
-  }
+  useEffect(() => {
+    if (!isSelected) {
+      setValues(new Set([]))
+      form.resetField("daysOfWeek")
+      form.resetField("from_month")
+      form.resetField("to_month")
+    }
+  }, [isSelected, form])
 
   return (
     <>
@@ -132,16 +170,14 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                         data={sub}
                         dataType="sub"
                       />
-
-                      <FormInput
-                        label="Course"
-                        form={form}
-                        name="course_id"
-                        data={course}
-                        dataType="course"
-                      />
                     </div>
-
+                    <FormInput
+                      label="Course"
+                      form={form}
+                      name="course_id"
+                      data={course}
+                      dataType="course"
+                    />
                     <FormField
                       control={form.control}
                       name="sched_Desc"
@@ -152,7 +188,6 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                               {...field}
                               minRows={2}
                               label="Description"
-                              variant="underlined"
                               placeholder="Schedule for"
                             />
                           </FormControl>
@@ -161,16 +196,53 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                       )}
                     />
 
-                    <Separator />
-
-                    <Checkbox
-                      isSelected={isSelected}
-                      onChange={setWeekly}
-                      onValueChange={setIsSelected}
-                      size="sm"
-                      defaultSelected>
-                      Weekly Schedule
-                    </Checkbox>
+                    <div className="flex gap-4 w-full">
+                      <div className="w-full">
+                        <FormField
+                          control={form.control}
+                          name="sched_type"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Select
+                                  items={schedType}
+                                  label="Schedule Type"
+                                  defaultValue={field.value}
+                                  onChange={field.onChange}>
+                                  {(data: any) => (
+                                    <SelectItem
+                                      key={data.id}
+                                      value={data.type}>
+                                      {data.type}
+                                    </SelectItem>
+                                  )}
+                                </Select>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="w-full grid items-center">
+                        <FormField
+                          control={form.control}
+                          name="weeklySched"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value}
+                                  onChange={field.onChange}
+                                  defaultSelected
+                                  size="sm">
+                                  Weekly Schedule
+                                </Checkbox>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
 
                     {isSelected && (
                       <>
@@ -187,7 +259,6 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                                   onChange={field.onChange}
                                   selectedKeys={values}
                                   label="Days Of Week"
-                                  variant="underlined"
                                   isMultiline={true}
                                   selectionMode="multiple"
                                   placeholder="Select a day"
@@ -228,7 +299,6 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                               <FormItem>
                                 <FormControl>
                                   <Input
-                                    variant="underlined"
                                     className="w-full"
                                     type="month"
                                     label="Start Month"
@@ -248,7 +318,6 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                               <FormItem>
                                 <FormControl>
                                   <Input
-                                    variant="underlined"
                                     className="w-full"
                                     type="month"
                                     label="End Month"
@@ -272,7 +341,6 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                           <FormItem>
                             <FormControl>
                               <Input
-                                variant="underlined"
                                 className="w-full"
                                 type="time"
                                 label="Start Time"
@@ -291,7 +359,6 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                           <FormItem>
                             <FormControl>
                               <Input
-                                variant="underlined"
                                 className="w-full"
                                 type="time"
                                 label="End Time"

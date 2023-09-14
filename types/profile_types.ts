@@ -19,7 +19,7 @@ export const subjectFormSchema = z.object({
 export type SubjectFormValues = z.infer<typeof subjectFormSchema>
 
 export const courseFormSchema = z.object({
-  course: z.string().min(4).max(30),
+  course: z.string().min(4).max(100),
   description: z.string().optional(),
 })
 

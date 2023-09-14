@@ -20,7 +20,7 @@ import { PiSpinnerGap } from "react-icons/pi"
 import { useRouter } from "next/navigation"
 import { RoomFormValues, roomFormSchema } from "@/types/profile_types"
 import { Textarea } from "@/components/ui/textarea"
-import { Database } from "@/types/supabase "
+import { Database } from "@/types/supabase"
 
 export function RoomUpdateForm({ id }: { id: number }) {
   const router = useRouter()

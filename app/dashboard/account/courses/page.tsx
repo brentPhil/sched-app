@@ -5,7 +5,7 @@ import { toast } from "@/components/ui/use-toast"
 import { DataTable } from "../components/DataTable"
 import { CourseCols } from "./courseCols"
 import AddDailog from "../components/AddDialog"
-import { Database } from "@/types/supabase "
+import { Database } from "@/types/supabase"
 
 async function getData() {
   const cookieStore = cookies()

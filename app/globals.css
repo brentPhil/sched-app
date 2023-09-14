@@ -1,9 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
+    --fc-border-color: hsl(20 5.9% 90%);
+    --fc-event-border-color: hsl(24.6 95% 53.1%);
+    --fc-button-active-bg-color: hsl(60 4.8% 95.9%);
+    --fc-button-bg-color: hsl(60 4.8% 95.9%);
+    --fc-event-border-color: hsl(20.5 90.2% 48.2%);
+    --fc-button-hover-bg-color: hsl(20.5 90.2% 48.2%);
+    --fc-button-border-color: hsl(60 4.8% 95.9%);
+    --fc-button-hover-border-color: hsl(20.5 90.2% 48.2%);
+    --fc-page-bg-color: hsl(60 4.8% 95.9%);
+    --fc-button-text-color: hsl(24 9.8% 10%);
+
     --background: 0 0% 100%;
     --foreground: 20 14.3% 4.1%;
     --card: 0 0% 100%;
@@ -27,6 +38,19 @@
   }
 
   .dark {
+
+    /* full-calendar-css */
+    --fc-border-color: hsl(12 6.5% 15.1%);
+    --fc-button-active-bg-color: hsl(12 6.5% 15.1%);
+    --fc-button-bg-color: hsl(12 6.5% 15.1%);
+    --fc-event-border-color: hsl(20.5 90.2% 48.2%);
+    --fc-button-hover-bg-color: hsl(20.5 90.2% 48.2%);
+    --fc-event-bg-color: hsl(20.5 90.2% 48.2%);
+    --fc-button-border-color: hsl(12 6.5% 15.1%);
+    --fc-button-hover-border-color: hsl(20.5 90.2% 48.2%);
+    --fc-page-bg-color: hsl(12 6.5% 15.1%);
+    --fc-button-text-color: hsl(60 9.1% 97.8%);
+
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
     --card: 20 14.3% 4.1%;
@@ -53,6 +77,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

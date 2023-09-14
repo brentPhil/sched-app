@@ -5,7 +5,7 @@ import { cookies } from "next/headers"
 import { toast } from "@/components/ui/use-toast"
 import { DataTable } from "../components/DataTable"
 import { RoomCols } from "./roomCols"
-import { Database } from "@/types/supabase "
+import { Database } from "@/types/supabase"
 import AddDailog from "../components/AddDialog"
 
 async function getData() {

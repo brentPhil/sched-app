@@ -21,7 +21,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useState } from "react"
 import { PiSpinnerGap } from "react-icons/pi"
 import { useRouter } from "next/navigation"
-import { Database } from "@/types/supabase "
+import { Database } from "@/types/supabase"
 
 export function ProfileForm({ session }: { session?: Session | null }) {
   const router = useRouter()

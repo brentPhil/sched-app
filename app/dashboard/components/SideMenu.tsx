@@ -28,7 +28,7 @@ const LinkButton: React.FC<ItemProps> = ({ name, icon: Icon, href }) => {
   return (
     <Link
       className={`flex items-center text-muted-foreground hover:text-primary justify-center lg:justify-start rounded gap-3 p-3 hover:bg-secondary ${
-        path && "bg-secondary text-primary-foreground"
+        path && "bg-secondary text-primary"
       }`}
       href={href}>
       {Icon && <Icon size={25} />} <p className="hidden lg:block">{name}</p>
@@ -53,11 +53,6 @@ export default function SideMenu() {
           <LinkButton
             icon={HiOutlineCalendar}
             name="Schedule"
-            href="/"
-          />
-          <LinkButton
-            icon={HiOutlineChartSquareBar}
-            name="Reports"
             href="/"
           />
         </CardContent>
