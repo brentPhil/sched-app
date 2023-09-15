@@ -23,7 +23,7 @@ export default async function page() {
       <NewSched faculty={faculty} sub={sub} course={course} rooms={rooms} />
       <Card className="w-full h-full rounded">
         <CardHeader>
-          <CalHeader />
+          <CalHeader faculty={faculty} />
         </CardHeader>
         <CardContent className="h-fit">
           <CustomCalendar sched={sched} />
