@@ -72,15 +72,6 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
   const isSelected = form.watch("weeklySched")
 
   async function onSubmit(values: SchedformPayload) {
-    let daysOfWeek = ""
-    let from_month = ""
-    let to_month = ""
-
-    if (values.weeklySched) {
-      let daysOfWeek = values.daysOfWeek
-      let from_month = values.from_month
-      let to_month = values.to_month
-    }
 
     let { data, error } = await supabase
       .from("schedules")
@@ -90,9 +81,9 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
         subject_id: values.subject_id,
         course_id: values.course_id,
         sched_type: values.sched_type,
-        daysOfWeek: daysOfWeek,
-        from_month: from_month,
-        to_month: to_month,
+        daysOfWeek: `${values.weeklySched && values.daysOfWeek}`,
+        from_month: `${values.weeklySched && values.from_month}`,
+        to_month: `${values.weeklySched && values.to_month}`,
         time_from: values.time_from,
         time_to: values.time_to,
         sched_desc: values.sched_Desc,

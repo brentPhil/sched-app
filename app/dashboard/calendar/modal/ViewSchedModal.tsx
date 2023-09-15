@@ -7,6 +7,7 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  Avatar,
 } from "@nextui-org/react"
 import { useViewSched } from "@/app/hooks/useSchedModal"
 import useGetSchedById from "@/app/get/getSchedById"
@@ -14,7 +15,6 @@ import useGetSchedById from "@/app/get/getSchedById"
 const ViewSchedModal = () => {
   const { isOpen, id, onOpenChange } = useViewSched()
   const { data, loading } = useGetSchedById(id)
-
   return (
     <>
       <Modal
@@ -50,11 +50,30 @@ const ViewSchedModal = () => {
                 Schedule Details
               </ModalHeader>
               <ModalBody>
-                <p>Modal body text goes here.</p>
-                <p>
-                  <strong>Data:</strong> {JSON.stringify(data)}
-                </p>
-                <p><strong>Loading:</strong> {loading}</p>
+                <div>
+                  <div>
+                    <div className="flex gap-2 items-center">
+                      <Avatar
+                        alt='profile'
+                        className="flex-shrink-0"
+                        size="sm"
+                        src={data?.users.avatar_url}
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-small">
+                          {data?.users.last_name +
+                            ", " +
+                            data?.users.first_name +
+                            " " +
+                            data?.users.middle_initial}
+                        </span>
+                        <span className="text-tiny text-default-400">
+                          {data?.users.email}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>

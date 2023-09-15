@@ -10,11 +10,11 @@ import Link from "next/link"
 import { IconType } from "react-icons"
 import {
   HiOutlineHome,
-  HiOutlineChartSquareBar,
   HiOutlineCalendar,
 } from "react-icons/hi"
 import { FcCalendar } from "react-icons/fc"
 import { usePathname } from "next/navigation"
+import { FiSettings } from "react-icons/fi"
 
 interface ItemProps {
   name: string
@@ -48,12 +48,17 @@ export default function SideMenu() {
             </Link>
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-2">
+        <CardContent className="p-2 space-y-3">
           <LinkButton icon={HiOutlineHome} name="home" href="/dashboard" />
           <LinkButton
             icon={HiOutlineCalendar}
             name="Schedule"
             href="/dashboard/calendar"
+          />
+          <LinkButton
+            icon={FiSettings}
+            name="Account Settings"
+            href="/dashboard/account"
           />
         </CardContent>
         <CardFooter></CardFooter>

@@ -75,21 +75,21 @@ export interface Database {
       }
       rooms: {
         Row: {
-          created_at: string
+          created_at: string | null
           description: string | null
           id: number
           room: string | null
           updated_at: string | null
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           description?: string | null
           id?: number
           room?: string | null
           updated_at?: string | null
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           description?: string | null
           id?: number
           room?: string | null
@@ -199,6 +199,7 @@ export interface Database {
       }
       users: {
         Row: {
+          avatar_url: string | null
           address: string | null
           contact_no: string | null
           email: string | null
@@ -211,6 +212,7 @@ export interface Database {
           username: string | null
         }
         Insert: {
+          avatar_url: string | null
           address?: string | null
           contact_no?: string | null
           email?: string | null
@@ -223,6 +225,7 @@ export interface Database {
           username?: string | null
         }
         Update: {
+          avatar_url: string | null
           address?: string | null
           contact_no?: string | null
           email?: string | null
