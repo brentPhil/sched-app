@@ -52,7 +52,7 @@ const ViewSchedModal = () => {
               <ModalBody>
                 <div>
                   <div>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-center py-2 px-3 bg-secondary w-fit rounded">
                       <Avatar
                         alt='profile'
                         className="flex-shrink-0"
