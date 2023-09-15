@@ -70,7 +70,7 @@ export function ProfileForm({ session }: { session?: Session | null }) {
         address: value.address,
         contact_no: value.contact_no,
         updated_at: new Date().toISOString(),
-        avatar_url: '',
+        avatar_url: "",
       })
       .eq("id", session?.user.id!)
       .select()

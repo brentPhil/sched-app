@@ -72,6 +72,7 @@ export function FacultyUpdateForm({ id }: { id: number }) {
         role: 1,
         contact_no: value.contact_no,
         updated_at: new Date().toISOString(),
+        avatar_url: "",
       })
       .eq("id", id)
       .select()
