@@ -86,7 +86,7 @@ export default function RegisterForm() {
             <FormItem>
               <FormControl>
                 <Input
-                  size="lg"
+                  size="md"
                   label="Email"
                   endContent={<MdAlternateEmail size={20} />}
                   type="email"
@@ -105,7 +105,7 @@ export default function RegisterForm() {
             <FormItem>
               <FormControl>
                 <Input
-                  size="lg"
+                  size="md"
                   endContent={
                     <button
                       className="focus:outline-none"
@@ -135,6 +135,7 @@ export default function RegisterForm() {
             <FormItem>
               <FormControl>
                 <Input
+                  size="md"
                   type="password"
                   endContent={<TbLockCheck size={20} />}
                   label="Confirm Password"
@@ -151,7 +152,7 @@ export default function RegisterForm() {
           variant="solid"
           color="primary"
           className="w-full mt-5"
-          size="lg"
+          size="md"
           isLoading={isLoading}
           disabled={isLoading}>
           Sign In

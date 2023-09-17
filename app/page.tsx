@@ -12,11 +12,11 @@ export default function Home() {
     <div className="h-screen overflow-hidden bg-cover bg-[url('schoolRoom.jpg')] items-center justify-center flex">
       <div>
         <Toaster />
-        <Card className="max-w-full w-[500px] h-[360px] rounded-md backdrop-blur-sm bg-accent/70 border-none">
+        <Card className="max-w-full w-[450px] h-[330px] rounded-md backdrop-blur-sm bg-accent/70 border-none">
           <CardBody className="overflow-hidden">
             <Tabs
               fullWidth
-              size="lg"
+              size="md"
               aria-label="Tabs form"
               selectedKey={selected}
               onSelectionChange={setSelected}>
