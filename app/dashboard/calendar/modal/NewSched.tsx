@@ -96,12 +96,12 @@ const NewSched: React.FC<NewSchedProps> = ({
         subject_id: values.subject_id,
         course_id: values.course_id,
         sched_type: values.sched_type,
-        daysOfWeek: `${values.weeklySched && values.daysOfWeek}`,
-        from_month: `${values.weeklySched && values.from_month}`,
-        to_month: `${values.weeklySched && values.to_month}`,
+        daysOfWeek: values.weeklySched ? values.daysOfWeek : "",
+        from_month: values.weeklySched ? values.from_month : "",
+        to_month: values.weeklySched ? values.to_month : "",
         time_from: values.time_from,
         time_to: values.time_to,
-        date: `${!values.weeklySched && values.date}`,
+        date: values.weeklySched ? "" : values.date,
       })
       .select()
 

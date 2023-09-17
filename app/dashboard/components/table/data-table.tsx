@@ -114,7 +114,7 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
             convertedDays.push("Sa")
             break
           default:
-            convertedDays.push("Invalid input")
+            convertedDays.push(false)
         }
       }
 
@@ -196,9 +196,9 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
         case "days":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-small truncate capitalize">
+              {cellValue !== 'false' && <p className="text-bold text-small truncate capitalize">
                 {cellValue}
-              </p>
+              </p>}
 
               <p className="text-bold text-tiny truncate text-default-400">
                 {schedule.time}
