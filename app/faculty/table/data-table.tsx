@@ -234,8 +234,6 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
                   <DropdownItem onClick={() => viewSched(`${schedule.id}`)}>
                     View
                   </DropdownItem>
-                  <DropdownItem>Edit</DropdownItem>
-                  <DropdownItem>Delete</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>

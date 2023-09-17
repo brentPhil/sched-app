@@ -3,31 +3,20 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { IoWarningOutline } from "react-icons/io5"
 import { useState } from "react"
 import { PiSpinner } from "react-icons/pi"
-import { Separator } from "@/components/ui/separator"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "@/types/supabase"
-import { Input } from "@nextui-org/react"
+import { Button, Input } from "@nextui-org/react"
 import { MdAlternateEmail } from "react-icons/md"
 import { AiFillEye, AiTwotoneEyeInvisible } from "react-icons/ai"
 
@@ -83,6 +72,7 @@ export const LoginForm = () => {
             <FormItem>
               <FormControl>
                 <Input
+                size="lg"
                   label="Email"
                   endContent={<MdAlternateEmail size={20} />}
                   type="email"
@@ -101,6 +91,7 @@ export const LoginForm = () => {
             <FormItem>
               <FormControl>
                 <Input
+                size="lg"
                   endContent={
                     <button
                       className="focus:outline-none"
@@ -125,15 +116,13 @@ export const LoginForm = () => {
         />
         <Button
           type="submit"
-          variant="default"
+          variant='solid'
+          color="primary"
           className="w-full mt-5"
           size="lg"
+          isLoading={isLoading}
           disabled={isLoading}>
-          {isLoading ? (
-            <PiSpinner className=" animate-spin" size={25} />
-          ) : (
-            "Sign In"
-          )}
+            Sign In
         </Button>
       </form>
     </Form>
