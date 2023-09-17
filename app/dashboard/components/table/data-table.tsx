@@ -1,13 +1,6 @@
 "use client"
 
-import React, {
-  ChangeEvent,
-  Key,
-  use,
-  useCallback,
-  useMemo,
-  useState,
-} from "react"
+import React, { ChangeEvent, Key, useCallback, useMemo, useState } from "react"
 import {
   Table,
   TableHeader,
@@ -31,34 +24,48 @@ import {
   Select,
   useDisclosure,
 } from "@nextui-org/react"
-import { columns, users, statusOptions } from "./columns"
+
+import { columns } from "./columns"
 import { capitalize } from "./utils"
 import { BsChevronDown, BsThreeDotsVertical } from "react-icons/bs"
-import { AiOutlinePlus } from "react-icons/ai"
 import { BiSearch } from "react-icons/bi"
-import NewSched from "../../calendar/modal/NewSched"
+import { useNewSched, useViewSched } from "@/app/hooks/useSchedModal"
+import { PiPlus } from "react-icons/pi"
+import { Schedule } from "@/types/types"
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
   cancelled: "danger",
-  vacation: "warning",
+  postponed: "warning",
+}
+interface SchedProps {
+  id: number
+  name: string | null
+  course: string | null
+  subject: string | null
+  days: string | null
+  room: string | null
+  time: string | null
+  email: string | null
+  avatar: string | undefined
 }
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "department", "status", "actions"]
+const INITIAL_VISIBLE_COLUMNS = ["name", "subject", "days", "room", "actions"]
+interface Data_tableProps {
+  sched: Schedule[]
+}
 
-type User = (typeof users)[0]
-
-export default function Data_table() {
+const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
+  const { onOpen } = useNewSched()
   const [filterValue, setFilterValue] = useState("")
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   )
-  const [statusFilter, setStatusFilter] = useState<Selection>("all")
+  // const [statusFilter, setStatusFilter] = useState<Selection>("all")
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "age",
+    column: "name",
     direction: "ascending",
   })
 
@@ -75,24 +82,70 @@ export default function Data_table() {
   }, [visibleColumns])
 
   const filteredItems = useMemo(() => {
-    let filteredUsers = [...users]
+    const schedule: SchedProps[] = []
+
+    sched?.forEach((item) => {
+      const daysArray = item?.daysOfWeek?.split(",")!
+      let convertedDays = []
+
+      for (let i = 0; i < daysArray!.length; i++) {
+        switch (parseInt(daysArray[i])) {
+          case 1:
+            convertedDays.push("Su")
+            break
+          case 2:
+            convertedDays.push("Mo")
+            break
+          case 3:
+            convertedDays.push("Tu")
+            break
+          case 4:
+            convertedDays.push("We")
+            break
+          case 5:
+            convertedDays.push("Th")
+            break
+          case 6:
+            convertedDays.push("Fr")
+            break
+          case 7:
+            convertedDays.push("Sa")
+            break
+          default:
+            convertedDays.push("Invalid input")
+        }
+      }
+
+      schedule.push({
+        id: item.id,
+        avatar: item.users.avatar_url,
+        name: item.users.last_name + " " + item.users.first_name,
+        course: item.courses.course,
+        subject: item.subjects.subject,
+        days: convertedDays.join(", ").replace(/,(?=[^,]*$)/, " and"),
+        room: item.rooms.room,
+        time: item.time_from + " - " + item.time_to,
+        email: item.users.email,
+      })
+    })
+    let filteredUsers = [...schedule]
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredUsers = filteredUsers.filter((schedule) =>
+        schedule?.name?.toLowerCase().includes(filterValue.toLowerCase())
       )
     }
-    if (
-      statusFilter !== "all" &&
-      Array.from(statusFilter).length !== statusOptions.length
-    ) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status)
-      )
-    }
+    // if (
+    //   statusFilter !== "all" &&
+    //   Array.from(statusFilter).length !== subjects.length
+    // ) {
+    //   filteredUsers = filteredUsers.filter(() =>
+    //     Array.from(statusFilter).includes("")
+    //   )
+    // }
 
     return filteredUsers
-  }, [filterValue, statusFilter, hasSearchFilter])
+  }, [filterValue, sched, hasSearchFilter])
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
@@ -104,34 +157,55 @@ export default function Data_table() {
   }, [page, filteredItems, rowsPerPage])
 
   const sortedItems = useMemo(() => {
-    return [...items].sort((a: User, b: User) => {
-      const first = a[sortDescriptor.column as keyof User] as number
-      const second = b[sortDescriptor.column as keyof User] as number
+    return [...items].sort((a: SchedProps, b: SchedProps) => {
+      const first = a[sortDescriptor.column as keyof SchedProps] as number
+      const second = b[sortDescriptor.column as keyof SchedProps] as number
       const cmp = first < second ? -1 : first > second ? 1 : 0
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp
     })
   }, [sortDescriptor, items])
 
-  const renderCell = useCallback((user: User, columnKey: Key) => {
-    const cellValue = user[columnKey as keyof User]
+  const renderCell = useCallback((schedule: SchedProps, columnKey: Key) => {
+    const cellValue = schedule[columnKey as keyof SchedProps]
 
     switch (columnKey) {
+      case "subject":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-small truncate capitalize">
+              {cellValue}
+            </p>
+            <p className="text-bold text-tiny capitalize text-default-400">
+              {schedule.course}
+            </p>
+          </div>
+        )
       case "name":
         return (
           <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
+            avatarProps={{ radius: "lg", src: schedule.avatar }}
+            description={schedule.email}
             name={cellValue}>
-            {user.email}
+            {schedule.email}
           </User>
         )
-      case "department":
+      case "days":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.course}
+            <p className="text-bold text-small truncate capitalize">
+              {cellValue}
+            </p>
+            <p className="text-bold text-tiny truncate text-default-400">
+              {schedule.time}
+            </p>
+          </div>
+        )
+      case "room":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-small truncate capitalize">
+              {cellValue}
             </p>
           </div>
         )
@@ -139,7 +213,7 @@ export default function Data_table() {
         return (
           <Chip
             className="capitalize"
-            color={statusColorMap[user.status]}
+            color={statusColorMap[""]}
             size="sm"
             variant="flat">
             {cellValue}
@@ -205,7 +279,7 @@ export default function Data_table() {
     return (
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
-          <Input
+          {/* <Input
             isClearable
             className="w-full sm:max-w-[44%]"
             placeholder="Search by name..."
@@ -213,14 +287,22 @@ export default function Data_table() {
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
+          /> */}
+
+          <User
+            name={sched[0]?.users.last_name + " " + sched[0]?.users.first_name}
+            description={sched[0]?.users.email}
+            avatarProps={{
+              src: `${sched[0]?.users.avatar_url}`,
+            }}
           />
           <div className="flex gap-3">
-            <Dropdown>
+            {/* <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
                   endContent={<BsChevronDown className="text-small" />}
                   variant="flat">
-                  Status
+                  Subject
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -230,13 +312,14 @@ export default function Data_table() {
                 selectedKeys={statusFilter}
                 selectionMode="multiple"
                 onSelectionChange={setStatusFilter}>
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
+                {subjects.map((subject: Subjects) => (
+                  <DropdownItem key={subject.id} className="capitalize">
+                    {capitalize(subject.subject)}
                   </DropdownItem>
                 ))}
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown> */}
+
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -260,12 +343,14 @@ export default function Data_table() {
               </DropdownMenu>
             </Dropdown>
             {/* //Add Button */}
-            <Button color="primary">Add New</Button>
+            <Button startContent={<PiPlus />} onPress={onOpen} color="primary">
+              Asign Schedule
+            </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {users.length} users
+            Total {items.length} Subject
           </span>
           <Select
             label="Rows per page:"
@@ -288,12 +373,14 @@ export default function Data_table() {
       </div>
     )
   }, [
-    filterValue,
-    statusFilter,
+    // filterValue,
+    sched,
+    onOpen,
     visibleColumns,
-    onSearchChange,
+    // onSearchChange,
     onRowsPerPageChange,
-    onClear,
+    // onClear,
+    items,
   ])
 
   const bottomContent = useMemo(() => {
@@ -340,6 +427,8 @@ export default function Data_table() {
     onPreviousPage,
   ])
 
+  const { viewSched } = useViewSched()
+
   return (
     <Table
       aria-label="Example table with custom cells, pagination and sorting"
@@ -353,8 +442,10 @@ export default function Data_table() {
       selectionMode="multiple"
       sortDescriptor={sortDescriptor}
       topContent={topContent}
+      selectionBehavior="replace"
       topContentPlacement="outside"
       onSelectionChange={setSelectedKeys}
+      onRowAction={(key: any) => viewSched(key)}
       onSortChange={setSortDescriptor}>
       <TableHeader columns={headerColumns}>
         {(column) => (
@@ -378,3 +469,5 @@ export default function Data_table() {
     </Table>
   )
 }
+
+export default Data_table

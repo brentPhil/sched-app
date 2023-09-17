@@ -1,4 +1,3 @@
-
 export interface Subjects {
   created_at: string | null
   description: string
@@ -33,6 +32,7 @@ export interface faculty {
   role: number | null
   updated_at: string | null
   username: string | null
+  avatar_url: string
 }
 export interface Sched {
   course_id: number | null
@@ -64,9 +64,7 @@ export interface Schedule {
   to_month: string | null
   sched_type: string | null
   updated_at: string | null
-  sched_desc: string | null
   daysOfWeek: string | null
-
   subjects: {
     id: number
     subject: string
@@ -75,11 +73,11 @@ export interface Schedule {
     created_at: string | null
   }
   rooms: {
+    created_at: string
+    description: string | null
     id: number
-    created_at: string | null
     room: string | null
-    description?: string | null
-    updated_at?: string | null
+    updated_at: string | null
   }
   courses: {
     id: number

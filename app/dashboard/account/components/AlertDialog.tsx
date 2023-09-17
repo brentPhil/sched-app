@@ -11,29 +11,33 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { PiTrashFill } from "react-icons/pi"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import { Button } from "@nextui-org/react"
+import { useViewSched } from "@/app/hooks/useSchedModal"
 
 interface AlertDialogDemoProps {
-  id: number
+  id: number | undefined
   description?: string
   table: string
+  title?: string
   subject: string | null
 }
 
 const DeleteAlert: React.FC<AlertDialogDemoProps> = ({
   description,
   subject,
+  title,
   table,
   id,
 }) => {
   const supabase = createClientComponentClient()
   const [loading, setLoading] = useState(false)
+  const { onClose } = useViewSched()
   const router = useRouter()
 
   const deleteSubject = async () => {
@@ -47,6 +51,7 @@ const DeleteAlert: React.FC<AlertDialogDemoProps> = ({
       toast({
         title: "Subject has been deleted",
       })
+      onClose()
       setLoading(false)
     }
     router.refresh()
@@ -56,14 +61,12 @@ const DeleteAlert: React.FC<AlertDialogDemoProps> = ({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          size="icon"
-          variant="ghost"
-          className="!rounded-md text-red-500 hover:text-red-500">
-          {loading ? (
-            <AiOutlineLoading3Quarters className="animate-spin" size={20} />
-          ) : (
-            <PiTrashFill size={20} />
-          )}
+          color="danger"
+          isIconOnly={!title}
+          isLoading={loading}
+          endContent={<PiTrashFill size={20} />}
+          variant="flat">
+          {title}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -85,9 +88,14 @@ const DeleteAlert: React.FC<AlertDialogDemoProps> = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={deleteSubject}>
+          <Button
+            onClick={deleteSubject}
+            as={AlertDialogAction}
+            color="danger"
+            endContent={<PiTrashFill size={20} />}
+            variant="flat">
             Continue
-          </AlertDialogAction>
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -14,6 +14,8 @@
     --fc-button-hover-border-color: hsl(20.5 90.2% 48.2%);
     --fc-page-bg-color: hsl(60 4.8% 95.9%);
     --fc-button-text-color: hsl(24 9.8% 10%);
+    --fc-event-text-color: hsl(60 9.1% 97.8%);
+    --fc-small-font-size: .8rem;
 
     --background: 0 0% 100%;
     --foreground: 20 14.3% 4.1%;
@@ -50,6 +52,8 @@
     --fc-button-hover-border-color: hsl(20.5 90.2% 48.2%);
     --fc-page-bg-color: hsl(12 6.5% 15.1%);
     --fc-button-text-color: hsl(60 9.1% 97.8%);
+    --fc-event-text-color: hsl(60 9.1% 97.8%);
+    --fc-small-font-size: .8rem;
 
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;

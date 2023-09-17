@@ -1,7 +1,5 @@
-import { cache } from "react"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
-import { toast } from "@/components/ui/use-toast"
 import { DataTable } from "../components/DataTable"
 import { CourseCols } from "./courseCols"
 import AddDailog from "../components/AddDialog"
@@ -18,7 +16,7 @@ async function getData() {
     .order("id", { ascending: true })
 
   if (error) {
-    toast({ title: error.message, description: error.message })
+    console.log(error.message)
     return []
   }
 

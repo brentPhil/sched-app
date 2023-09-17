@@ -1,8 +1,6 @@
 import React, { cache } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
-import { toast } from "@/components/ui/use-toast"
 import { DataTable } from "../components/DataTable"
 import { RoomCols } from "./roomCols"
 import { Database } from "@/types/supabase"
@@ -18,7 +16,7 @@ async function getData() {
     .select()
     .order("id", { ascending: true })
 
-  error && toast({ title: error.message, description: error.message })
+  error && console.log(error.message)
 
   return (data as any) || []
 }

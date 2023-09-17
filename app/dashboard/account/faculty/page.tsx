@@ -1,7 +1,6 @@
 import React, { cache } from "react"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
-import { toast } from "@/components/ui/use-toast"
 import { DataTable } from "../components/DataTable"
 import { Database } from "@/types/supabase"
 import { FacultyCols } from "./facultyCols"
@@ -14,10 +13,10 @@ async function getData() {
   let { data, error } = await supabase
     .from("users")
     .select()
-    .eq("role", 1)
+    .eq("role", 'faculty')
     .order("id", { ascending: true })
 
-  error && toast({ title: error.message, description: error.message })
+  error && console.log(error.message)
 
   return (data as any) || []
 }

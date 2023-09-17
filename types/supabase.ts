@@ -75,21 +75,21 @@ export interface Database {
       }
       rooms: {
         Row: {
-          created_at: string | null
+          created_at: string
           description: string | null
           id: number
           room: string | null
           updated_at: string | null
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           description?: string | null
           id?: number
           room?: string | null
           updated_at?: string | null
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           description?: string | null
           id?: number
           room?: string | null
@@ -106,8 +106,8 @@ export interface Database {
           from_month: string | null
           id: number
           room_id: number | null
-          sched_desc: string | null
           sched_type: string | null
+          section_id: number | null
           subject_id: number | null
           time_from: string
           time_to: string
@@ -122,8 +122,8 @@ export interface Database {
           from_month?: string | null
           id?: never
           room_id?: number | null
-          sched_desc?: string | null
           sched_type?: string | null
+          section_id?: number | null
           subject_id?: number | null
           time_from: string
           time_to: string
@@ -138,8 +138,8 @@ export interface Database {
           from_month?: string | null
           id?: never
           room_id?: number | null
-          sched_desc?: string | null
           sched_type?: string | null
+          section_id?: number | null
           subject_id?: number | null
           time_from?: string
           time_to?: string
@@ -166,6 +166,12 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "schedules_section_id_fkey"
+            columns: ["section_id"]
+            referencedRelation: "sections"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "schedules_subject_id_fkey"
             columns: ["subject_id"]
             referencedRelation: "subjects"
@@ -173,12 +179,58 @@ export interface Database {
           }
         ]
       }
+      sections: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          name: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+        }
+        Relationships: []
+      }
+      status: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          name: string | null
+          uid: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+          uid?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+          uid?: string | null
+        }
+        Relationships: []
+      }
       subjects: {
         Row: {
           created_at: string | null
           description: string
           id: number
           subject: string
+          units: number | null
           updated_at: string | null
         }
         Insert: {
@@ -186,6 +238,7 @@ export interface Database {
           description: string
           id?: never
           subject: string
+          units?: number | null
           updated_at?: string | null
         }
         Update: {
@@ -193,47 +246,48 @@ export interface Database {
           description?: string
           id?: never
           subject?: string
+          units?: number | null
           updated_at?: string | null
         }
         Relationships: []
       }
       users: {
         Row: {
-          avatar_url: string | null
           address: string | null
+          avatar_url: string | null
           contact_no: string | null
           email: string | null
           first_name: string | null
           id: string
           last_name: string | null
           middle_initial: string | null
-          role: number | null
+          role: string | null
           updated_at: string | null
           username: string | null
         }
         Insert: {
-          avatar_url: string | null
           address?: string | null
+          avatar_url?: string | null
           contact_no?: string | null
           email?: string | null
           first_name?: string | null
           id: string
           last_name?: string | null
           middle_initial?: string | null
-          role?: number | null
+          role?: string | null
           updated_at?: string | null
           username?: string | null
         }
         Update: {
-          avatar_url: string | null
           address?: string | null
+          avatar_url?: string | null
           contact_no?: string | null
           email?: string | null
           first_name?: string | null
           id?: string
           last_name?: string | null
           middle_initial?: string | null
-          role?: number | null
+          role?: string | null
           updated_at?: string | null
           username?: string | null
         }
@@ -242,7 +296,7 @@ export interface Database {
             foreignKeyName: "users_role_fkey"
             columns: ["role"]
             referencedRelation: "roles"
-            referencedColumns: ["id"]
+            referencedColumns: ["name"]
           }
         ]
       }

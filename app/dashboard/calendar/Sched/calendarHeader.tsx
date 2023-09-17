@@ -1,7 +1,6 @@
 "use client"
 
 import { useNewSched, useViewSched } from "@/app/hooks/useSchedModal"
-import { CardTitle } from "@/components/ui/card"
 import { faculty } from "@/types/types"
 import {
   Avatar,
@@ -34,10 +33,8 @@ const CalHeader: React.FC<CalHeaderProps> = ({ faculty }) => {
           src={option.avatar_url}
         />
         <div className="flex flex-col">
-          <span className="text-small">
-            {option.last_name +
-              ", " +
-              option.first_name +
+          <span className="text-medium font-medium">
+            {option.last_name + ", " + option.first_name +
               " " +
               option.middle_initial}
           </span>
@@ -49,13 +46,13 @@ const CalHeader: React.FC<CalHeaderProps> = ({ faculty }) => {
 
   return (
     <div className=" flex justify-between items-center">
-      <CardTitle className="text-xl">Schedules</CardTitle>
-
       <Select
         items={faculty}
         onChange={handleSelectionChange}
-        placeholder="Select faculty member"
+        placeholder="Filter faculty member"
         size="sm"
+        color="primary"
+        variant='underlined'
         className="max-w-xs"
         classNames={{
           trigger: "min-h-unit-12",
@@ -73,7 +70,6 @@ const CalHeader: React.FC<CalHeaderProps> = ({ faculty }) => {
         )}
       </Select>
       <Button
-        size="sm"
         endContent={<PlusIcon />}
         variant="solid"
         onPress={onOpen}

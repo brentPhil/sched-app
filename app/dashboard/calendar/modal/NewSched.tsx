@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import {
   Modal,
   ModalContent,
@@ -33,6 +33,7 @@ import { SchedformPayload, SchedformSchema } from "@/types/zodFormSchema"
 import { Separator } from "@/components/ui/separator"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "@/types/supabase"
+import { faculty } from "@/types/types"
 
 const daysOfWeek = [
   { id: 1, day: "Sunday" },
@@ -55,11 +56,21 @@ interface NewSchedProps {
   course: any
   faculty: any
   rooms: any
+  sec: any
+  id?: any
 }
 
-const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
-  const { isOpen, onOpenChange } = useNewSched()
-  const [values, setValues] = React.useState<Selection>(new Set([]))
+const NewSched: React.FC<NewSchedProps> = ({
+  sub,
+  course,
+  faculty,
+  rooms,
+  sec,
+  id
+}) => {
+  const { isOpen, onClose, onOpenChange } = useNewSched()
+  const [values, setValues] = useState<Selection>(new Set([]))
+  const [loading, setLoading] = useState(false)
 
   const supabase = createClientComponentClient<Database>()
 
@@ -67,12 +78,13 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
     resolver: zodResolver(SchedformSchema),
     defaultValues: {
       weeklySched: true,
+      sched_type: '1',
     },
   })
   const isSelected = form.watch("weeklySched")
 
   async function onSubmit(values: SchedformPayload) {
-
+    setLoading(true)
     let { data, error } = await supabase
       .from("schedules")
       .insert({
@@ -86,20 +98,23 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
         to_month: `${values.weeklySched && values.to_month}`,
         time_from: values.time_from,
         time_to: values.time_to,
-        sched_desc: values.sched_Desc,
       })
       .select()
 
-    error &&
+    if (error) {
+      setLoading(false)
       toast({
         title: "error",
         description: error.message,
       })
-
-    data &&
+    }
+    if (data) {
+      setLoading(false)
+      onClose()
       toast({
         title: "Schedule has been added",
       })
+    }
   }
 
   useEffect(() => {
@@ -152,26 +167,10 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                       label="Assigned to"
                       form={form}
                       name="faculty_id"
+                      id={id}
                       data={faculty}
                       dataType="faculty"
                     />
-
-                    <div className="grid grid-flow-col gap-4">
-                      <FormInput
-                        label="Room"
-                        form={form}
-                        name="room_id"
-                        data={rooms}
-                        dataType="room"
-                      />
-                      <FormInput
-                        label="SubjectCode"
-                        form={form}
-                        name="subject_id"
-                        data={sub}
-                        dataType="sub"
-                      />
-                    </div>
                     <FormInput
                       label="Course"
                       form={form}
@@ -179,22 +178,28 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                       data={course}
                       dataType="course"
                     />
-                    <FormField
-                      control={form.control}
-                      name="sched_Desc"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Textarea
-                              {...field}
-                              minRows={2}
-                              label="Description"
-                              placeholder="Schedule for"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                    <div className="grid grid-flow-col gap-4">
+                      <FormInput
+                        label="Section"
+                        form={form}
+                        name="section_id"
+                        data={sec}
+                        dataType="sec"
+                      />
+                      <FormInput
+                        label="Room"
+                        form={form}
+                        name="room_id"
+                        data={rooms}
+                        dataType="room"
+                      />
+                    </div>
+                    <FormInput
+                      label="SubjectCode"
+                      form={form}
+                      name="subject_id"
+                      data={sub}
+                      dataType="sub"
                     />
 
                     <div className="flex gap-4 w-full">
@@ -208,6 +213,7 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                                 <Select
                                   items={schedType}
                                   label="Schedule Type"
+                                  defaultSelectedKeys={["1"]}
                                   defaultValue={field.value}
                                   onChange={field.onChange}>
                                   {(data: any) => (
@@ -298,6 +304,7 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                               <FormItem>
                                 <FormControl>
                                   <Input
+                                    defaultValue={field.value}
                                     className="w-full"
                                     type="month"
                                     label="Start Month"
@@ -317,6 +324,7 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                               <FormItem>
                                 <FormControl>
                                   <Input
+                                    defaultValue={field.value}
                                     className="w-full"
                                     type="month"
                                     label="End Month"
@@ -340,6 +348,7 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                           <FormItem>
                             <FormControl>
                               <Input
+                                defaultValue={field.value}
                                 className="w-full"
                                 type="time"
                                 label="Start Time"
@@ -358,6 +367,7 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                           <FormItem>
                             <FormControl>
                               <Input
+                                defaultValue={field.value}
                                 className="w-full"
                                 type="time"
                                 label="End Time"
@@ -375,7 +385,7 @@ const NewSched: React.FC<NewSchedProps> = ({ sub, course, faculty, rooms }) => {
                     <Button color="danger" variant="light" onPress={onClose}>
                       Close
                     </Button>
-                    <Button color="primary" type="submit">
+                    <Button isLoading={loading} color="primary" type="submit">
                       Action
                     </Button>
                   </ModalFooter>

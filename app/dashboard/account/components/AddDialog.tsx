@@ -12,8 +12,9 @@ import React from "react"
 import { CourseForm } from "../courses/Course-Form"
 import { SubjectForm } from "../subjects/Subject-Form"
 import { RoomForm } from "../rooms/Room-Form"
+import { SectionForm } from "../sections/Section-Form"
 interface AddDailogProps {
-  table: "Course" | "Subject" | "Room"
+  table: "Course" | "Subject" | "Room" | 'Section'
 }
 const AddDailog: React.FC<AddDailogProps> = ({ table }) => {
   return (
@@ -28,14 +29,14 @@ const AddDailog: React.FC<AddDailogProps> = ({ table }) => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add {table}</DialogTitle>
-          <DialogDescription>
-            Add a new {table}.
-          </DialogDescription>
+          <DialogDescription>Add a new {table}.</DialogDescription>
         </DialogHeader>
         {table === "Course" ? (
           <CourseForm />
         ) : table === "Subject" ? (
           <SubjectForm />
+        ) : table === "Section" ? (
+          <SectionForm />
         ) : (
           table === "Room" && <RoomForm />
         )}

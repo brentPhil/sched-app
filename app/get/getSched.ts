@@ -1,24 +1,39 @@
+import { toast } from "@/components/ui/use-toast"
 import { Database } from "@/types/supabase"
-import { Sched } from "@/types/types"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
-import { cookies } from "next/headers"
+import { Schedule } from "@/types/types"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { useEffect, useMemo, useState } from "react"
 
-const getSched = async (): Promise<Sched[]> => {
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient<Database>({
-    cookies: () => cookieStore,
-  })
+const useGetSched = () => {
+  const supabase = createClientComponentClient<Database>()
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState<Schedule[]>()
 
-  const { data, error } = await supabase
-    .from("schedules")
-    .select("*, subjects(*), rooms(*), courses(*), users(*)")
-    .order("id", { ascending: true })
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from("schedules")
+        .select("*, subjects(*), rooms(*), courses(*), users(*), sections(*)")
+        .order("id", { ascending: true })
 
-  if (error) {
-    console.log(error)
-  }
+      if (error) {
+        setLoading(false)
+        return toast({
+          title: "error",
+          description: error.message,
+        })
+      }
 
-  return (data as any) || []
+      console.log(data)
+
+      setData((data as any) || [])
+      setLoading(false)
+    }
+
+    fetchData()
+  }, [supabase])
+
+  return useMemo(() => ({ loading, data }), [data, loading])
 }
 
-export default getSched
+export default useGetSched

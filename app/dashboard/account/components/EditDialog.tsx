@@ -15,7 +15,7 @@ import { RoomUpdateForm } from "../rooms/RoomUpdateForm"
 import { FacultyUpdateForm } from "../faculty/FacultyUpdateForm"
 interface EditDailogProps {
   id: number
-  table: "courses" | "subjects" | "rooms" | "faculty"
+  table: "courses" | "subjects" | "rooms" | "faculty" | 'sections'
 }
 const EditDailog: React.FC<EditDailogProps> = ({ id, table }) => {
   return (

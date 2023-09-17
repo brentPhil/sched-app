@@ -1,7 +1,6 @@
 import React, { cache } from "react"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
-import { toast } from "@/components/ui/use-toast"
 import { SubjectCols } from "./subjectCols"
 import { DataTable } from "../components/DataTable"
 import { Database } from "@/types/supabase"
@@ -17,7 +16,7 @@ async function getTasks() {
     .select()
     .order("id", { ascending: true })
 
-  error && toast({ title: error.message, description: error.message })
+  error && console.log(error.message)
 
   return (data as any) || []
 }

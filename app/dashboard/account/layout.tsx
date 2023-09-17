@@ -27,6 +27,10 @@ const sidebarNavItems = [
     title: "Faculty",
     href: "/dashboard/account/faculty",
   },
+  {
+    title: "Section",
+    href: "/dashboard/account/sections",
+  },
 ]
 
 export default function SettingsLayout({

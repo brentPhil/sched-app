@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Avatar, Select, SelectItem } from "@nextui-org/react"
+import { da } from "date-fns/locale"
 
 const Faculty = ({ option }: { option: any }) => {
   return (
@@ -39,6 +40,7 @@ interface FormInputProps {
   description?: string
   data?: any
   dataType?: string
+  id?: any
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -47,6 +49,7 @@ const FormInput: React.FC<FormInputProps> = ({
   label,
   description,
   data,
+  id,
   dataType,
 }) => {
   return (
@@ -58,10 +61,12 @@ const FormInput: React.FC<FormInputProps> = ({
           <FormControl>
             {dataType === "faculty" ? (
               <Select
+                isDisabled={id}
                 items={data}
                 label="Assigned to"
                 defaultValue={field.value}
                 onChange={field.onChange}
+                defaultSelectedKeys={[id]}
                 placeholder="Select faculty member"
                 classNames={{
                   trigger: "min-h-unit-16",
@@ -99,7 +104,7 @@ const FormInput: React.FC<FormInputProps> = ({
                       ? option.course
                       : dataType === "room"
                       ? option.room
-                      : ""}
+                      : option.name}
                   </SelectItem>
                 ))}
               </Select>

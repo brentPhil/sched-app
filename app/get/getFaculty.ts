@@ -12,7 +12,7 @@ const getFaculty = async (): Promise<faculty[]> => {
   const { data, error } = await supabase
     .from("users")
     .select("*")
-    .eq("role", 1)
+    .eq("role", 'faculty')
     .order("id", { ascending: true })
 
   if (error) {

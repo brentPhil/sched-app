@@ -24,14 +24,16 @@ import { useRouter } from "next/navigation"
 import { IoWarningOutline } from "react-icons/io5"
 import { useState } from "react"
 import { PiSpinner } from "react-icons/pi"
-import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "@/types/supabase"
+import { Input } from "@nextui-org/react"
+import { MdAlternateEmail } from "react-icons/md"
+import { AiFillEye, AiTwotoneEyeInvisible } from "react-icons/ai"
 
 const formSchema = z.object({
   email: z.string().min(2, "Email required").email(),
-  password: z.string().min(1, "Password required").max(8),
+  password: z.string().min(1, "Password required").max(16),
 })
 
 export const LoginForm = () => {
@@ -51,7 +53,9 @@ export const LoginForm = () => {
       email: values.email,
       password: values.password,
     })
+
     router.refresh()
+
     if (error) {
       toast({
         description: (
@@ -65,64 +69,73 @@ export const LoginForm = () => {
     }
   }
 
+  const [isVisible, setIsVisible] = useState(false)
+
+  const toggleVisibility = () => setIsVisible(!isVisible)
+
   return (
-    <Card className=" w-96 rounded-md">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <CardHeader>
-            <br />
-            <CardTitle className=" text-2xl font-bold text-center text-accent-foreground">
-              Welcome Back
-            </CardTitle>
-            <CardDescription className=" text-center">
-              Please enter your details to sign in
-            </CardDescription>
-          </CardHeader>
-          <CardContent className=" flex flex-col gap-3 py-0">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-          <Separator className="my-5" />
-          <CardFooter>
-            <Button
-              type="submit"
-              variant="default"
-              className="w-full"
-              size="lg"
-              disabled={isLoading}>
-              {isLoading ? (
-                <PiSpinner className=" animate-spin" size={25} />
-              ) : (
-                "Sign In"
-              )}
-            </Button>
-          </CardFooter>
-        </form>
-      </Form>
-    </Card>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  label="Email"
+                  endContent={<MdAlternateEmail size={20} />}
+                  type="email"
+                  variant="underlined"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}>
+                      {isVisible ? (
+                        <AiFillEye className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                        <AiTwotoneEyeInvisible className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
+                  }
+                  type={isVisible ? "text" : "password"}
+                  label="Password"
+                  variant="underlined"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          type="submit"
+          variant="default"
+          className="w-full mt-5"
+          size="lg"
+          disabled={isLoading}>
+          {isLoading ? (
+            <PiSpinner className=" animate-spin" size={25} />
+          ) : (
+            "Sign In"
+          )}
+        </Button>
+      </form>
+    </Form>
   )
 }

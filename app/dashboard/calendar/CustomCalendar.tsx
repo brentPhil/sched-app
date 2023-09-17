@@ -1,7 +1,8 @@
 "use client"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
-import { Sched } from "@/types/types"
+import timeGridPlugin from "@fullcalendar/timegrid"
+import { Sched, Schedule } from "@/types/types"
 import { useViewSched } from "@/app/hooks/useSchedModal"
 import { useCallback, useEffect, useState } from "react"
 
@@ -18,14 +19,16 @@ const CustomCalendar = ({ sched }: { sched: any }) => {
 
   const updateSchedData = useCallback(() => {
     const updatedSched = sched
-      .map((item: Sched) => {
+      .map((item: Schedule) => {
         if (item.faculty_id === userid) {
           return {
+            title: item.subjects.subject,
             id: item.id,
             date: "2023-09-11",
             daysOfWeek: `${item.daysOfWeek}`.split(",").map(Number),
             startTime: item.time_from,
             endTime: item.time_to,
+            color: "#ff6e00",
           }
         }
       })
@@ -41,18 +44,18 @@ const CustomCalendar = ({ sched }: { sched: any }) => {
   return (
     <FullCalendar
       headerToolbar={{
-        right: "prev,next today dayGridMonth",
+        right: "today timeGridWeek dayGridMonth prev,next",
         left: "title",
       }}
+      eventClick={vSched}
+      plugins={[dayGridPlugin, timeGridPlugin]}
+      events={events}
       eventTimeFormat={{
         hour: "2-digit",
         minute: "2-digit",
         meridiem: "short",
         hour12: true,
       }}
-      eventClick={vSched}
-      plugins={[dayGridPlugin]}
-      events={events} // set the events prop to the state variable events
       navLinks
       selectable
       nowIndicator
