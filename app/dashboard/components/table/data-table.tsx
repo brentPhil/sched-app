@@ -32,6 +32,7 @@ import { BiSearch } from "react-icons/bi"
 import { useNewSched, useViewSched } from "@/app/hooks/useSchedModal"
 import { PiPlus } from "react-icons/pi"
 import { Schedule } from "@/types/types"
+import { INVALID } from "zod"
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -195,9 +196,11 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
         case "days":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-small truncate capitalize">
-                {cellValue}
-              </p>
+              {schedule.days !== 'invalid input' && (
+                <p className="text-bold text-small truncate capitalize">
+                  {cellValue}
+                </p>
+              )}
               <p className="text-bold text-tiny truncate text-default-400">
                 {schedule.time}
               </p>

@@ -99,38 +99,6 @@ const ViewSchedModal = () => {
                       </div>
                     )}
                     {loading ? (
-                      <div className="max-w-[300px] w-full flex items-center gap-3">
-                        <div>
-                          <Skeleton className="flex rounded-full w-12 h-12" />
-                        </div>
-                        <div className="w-full flex flex-col gap-2">
-                          <Skeleton className="h-4 w-3/5 rounded-md" />
-                          <Skeleton className="h-4 w-4/5 rounded-md" />
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="flex gap-2 items-center py-2 px-3 bg-secondary w-fit rounded">
-                        <Avatar
-                          alt="profile"
-                          className="flex-shrink-0"
-                          size="sm"
-                          src={data?.users.avatar_url}
-                        />
-                        <div className="flex flex-col">
-                          <span className="text-small text-primary">
-                            {data?.users.last_name +
-                              ", " +
-                              data?.users.first_name +
-                              " " +
-                              data?.users.middle_initial}
-                          </span>
-                          <span className="text-tiny text-default-400">
-                            {data?.users.email}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                    {loading ? (
                       <div className="w-full flex flex-col gap-3">
                         <Skeleton className="h-5 w-4/12 rounded-md" />
                         <Skeleton className="h-5 w-6/12 rounded-md" />
