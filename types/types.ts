@@ -64,10 +64,12 @@ export interface Schedule {
   to_month: string | null
   sched_type: string | null
   updated_at: string | null
+  date: string | null
   daysOfWeek: string | null
   subjects: {
     id: number
     subject: string
+    units: number | null
     description: string | null
     updated_at?: string | null
     created_at: string | null

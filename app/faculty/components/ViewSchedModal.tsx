@@ -15,7 +15,6 @@ import { useViewSched } from "@/app/hooks/useSchedModal"
 import useGetSchedById from "@/app/get/getSchedById"
 import { format, parse } from "date-fns"
 import { BsDash } from "react-icons/bs"
-import DeleteAlert from "../../account/components/AlertDialog"
 
 const ViewSchedModal = () => {
   const { isOpen, id, onOpenChange } = useViewSched()
@@ -119,40 +118,20 @@ const ViewSchedModal = () => {
                           <p>Room:</p> <p>{data?.rooms.room}</p>
                         </div>
                         <div className="flex space-x-3">
-                          <p>Units:</p> <p>{data?.subjects.units}</p>
+                          <p>Duration:</p>
+                          <p className="flex items-center gap-1">
+                            {data && format(from_month, "MMMM yyyy")} <BsDash />
+                            {data && format(to_month, "MMMM yyyy")}
+                          </p>
                         </div>
-
-                        {!data?.date ? (
-                          <>
-                            <div className="flex space-x-3">
-                              <p>Duration:</p>
-                              <p className="flex items-center gap-1">
-                                {data && format(from_month, "MMMM yyyy")}{" "}
-                                <BsDash />
-                                {data && format(to_month, "MMMM yyyy")}
-                              </p>
-                            </div>
-                            <div className="flex space-x-3 items-center">
-                              <p>Time:</p>
-                              <p className="flex items-center gap-1">
-                                <Code>
-                                  {data && format(time_from, "h:mm aa")}
-                                </Code>
-                                <BsDash />
-                                <Code>
-                                  {data && format(time_to, "h:mm aa")}
-                                </Code>
-                              </p>
-                            </div>
-                          </>
-                        ) : (
-                          <div className="flex space-x-3 items-center">
-                            <p>Time:</p>
-                            <p className="flex items-center gap-1">
-                              <Code>{format(new Date(data?.date), "PPP")}</Code>
-                            </p>
-                          </div>
-                        )}
+                        <div className="flex space-x-3 items-center">
+                          <p>Time:</p>
+                          <p className="flex items-center gap-1">
+                            <Code>{data && format(time_from, "h:mm aa")}</Code>
+                            <BsDash />
+                            <Code>{data && format(time_to, "h:mm aa")}</Code>
+                          </p>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -167,15 +146,9 @@ const ViewSchedModal = () => {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="default" variant="light" onPress={onClose}>
+                <Button color='default' variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <DeleteAlert
-                  title="Delete"
-                  id={data?.id}
-                  table="schedules"
-                  subject="Schedule"
-                />
               </ModalFooter>
             </>
           )}

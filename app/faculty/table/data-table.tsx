@@ -178,7 +178,7 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
               <p className="text-bold text-small truncate capitalize">
                 {cellValue}
               </p>
-              <p className="text-bold text-tiny capitalize text-default-400">
+              <p className="text-bold text-tiny line-clamp-1 capitalize text-default-400">
                 {schedule.course}
               </p>
             </div>
@@ -349,14 +349,14 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
               </DropdownMenu>
             </Dropdown>
             {/* //Add Button */}
-            {
+            {/* {
               <Button
                 startContent={<PiPlus />}
                 onPress={onOpen}
                 color="primary">
                 Assign Schedule
               </Button>
-            }
+            } */}
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -386,7 +386,7 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
   }, [
     // filterValue,
     sched,
-    onOpen,
+    // onOpen,
     visibleColumns,
     // onSearchChange,
     onRowsPerPageChange,
@@ -445,7 +445,7 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
       classNames={{
-        wrapper: "h-[70vh]",
+        wrapper: "h-[65vh]",
       }}
       selectedKeys={selectedKeys}
       selectionMode="multiple"

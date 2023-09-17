@@ -38,6 +38,7 @@ export function SubjectForm({ session }: { session?: Session | null }) {
       .from("subjects")
       .insert({
         subject: value.subject,
+        units: value.units ?? "",
         description: value.description ?? "",
         created_at: new Date().toISOString(),
       })
@@ -74,6 +75,19 @@ export function SubjectForm({ session }: { session?: Session | null }) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Subjcode</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="units"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Units</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>

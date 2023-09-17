@@ -7,8 +7,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form"
-import { Avatar, Select, SelectItem } from "@nextui-org/react"
-import { da } from "date-fns/locale"
+import { Avatar, Code, Select, SelectItem } from "@nextui-org/react"
 
 const Faculty = ({ option }: { option: any }) => {
   return (
@@ -98,13 +97,13 @@ const FormInput: React.FC<FormInputProps> = ({
                     key={option.id}
                     value={option.id}
                     className=" capitalize">
-                    {dataType === "sub"
-                      ? option.subject
-                      : dataType === "course"
-                      ? option.course
-                      : dataType === "room"
-                      ? option.room
-                      : option.name}
+                    { dataType === "course" ? (
+                      option.course
+                    ) : dataType === "room" ? (
+                      option.room
+                    ) : (
+                      option.name
+                    )}
                   </SelectItem>
                 ))}
               </Select>

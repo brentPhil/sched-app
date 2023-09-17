@@ -1,9 +1,9 @@
 import { Database } from "@/types/supabase"
-import { Room } from "@/types/types"
+import { Room, Schedule } from "@/types/types"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 
-const getSchedClient = async (): Promise<Room[]> => {
+const getSchedClient = async (): Promise<Schedule[]> => {
   const cookieStore = cookies()
   const supabase = createServerComponentClient<Database>({
     cookies: () => cookieStore,

@@ -13,6 +13,7 @@ export type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 export const subjectFormSchema = z.object({
   subject: z.string().min(4).max(30),
+  units: z.coerce.number(),
   description: z.string().optional(),
 })
 

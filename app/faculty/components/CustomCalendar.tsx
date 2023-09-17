@@ -7,8 +7,6 @@ import { useViewSched } from "@/app/hooks/useSchedModal"
 import { useCallback, useEffect, useState } from "react"
 
 const CustomCalendar = ({ sched }: { sched: any }) => {
-  const { userid } = useViewSched()
-
   const [events, setEvents] = useState([])
 
   const { viewSched } = useViewSched()
@@ -20,22 +18,20 @@ const CustomCalendar = ({ sched }: { sched: any }) => {
   const updateSchedData = useCallback(() => {
     const updatedSched = sched
       .map((item: Schedule) => {
-        if (item.faculty_id === userid) {
-          return {
-            title: item.subjects.subject,
-            id: item.id,
-            date: item.date,
-            daysOfWeek: `${item.daysOfWeek}`.split(",").map(Number),
-            startTime: item.time_from,
-            endTime: item.time_to,
-            color: "#ff6e00",
-          }
+        return {
+          title: item.subjects.subject,
+          id: item.id,
+          date: item.date,
+          daysOfWeek: `${item.daysOfWeek}`.split(",").map(Number),
+          startTime: item.time_from,
+          endTime: item.time_to,
+          color: "#ff6e00",
         }
       })
       .filter((item: Sched) => item !== undefined)
 
     setEvents(updatedSched)
-  }, [sched, userid])
+  }, [sched])
 
   useEffect(() => {
     updateSchedData()
@@ -48,7 +44,7 @@ const CustomCalendar = ({ sched }: { sched: any }) => {
         left: "title",
       }}
       eventClick={vSched}
-      plugins={[dayGridPlugin, timeGridPlugin]}
+      plugins={[timeGridPlugin]}
       events={events}
       eventTimeFormat={{
         hour: "2-digit",

@@ -14,6 +14,7 @@ import {
   Selection,
   Textarea,
   Checkbox,
+  Code,
 } from "@nextui-org/react"
 import FormInput from "../../components/forms/NewSched"
 import {
@@ -34,6 +35,7 @@ import { Separator } from "@/components/ui/separator"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "@/types/supabase"
 import { faculty } from "@/types/types"
+import { useRouter } from "next/navigation"
 
 const daysOfWeek = [
   { id: 1, day: "Sunday" },
@@ -71,6 +73,7 @@ const NewSched: React.FC<NewSchedProps> = ({
   const { isOpen, onClose, onOpenChange } = useNewSched()
   const [values, setValues] = useState<Selection>(new Set([]))
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const supabase = createClientComponentClient<Database>()
 
@@ -98,6 +101,7 @@ const NewSched: React.FC<NewSchedProps> = ({
         to_month: `${values.weeklySched && values.to_month}`,
         time_from: values.time_from,
         time_to: values.time_to,
+        date: `${!values.weeklySched && values.date}`,
       })
       .select()
 
@@ -110,6 +114,7 @@ const NewSched: React.FC<NewSchedProps> = ({
     }
     if (data) {
       setLoading(false)
+      router.refresh()
       onClose()
       toast({
         title: "Schedule has been added",
@@ -195,14 +200,47 @@ const NewSched: React.FC<NewSchedProps> = ({
                         dataType="room"
                       />
                     </div>
-                    <FormInput
-                      label="SubjectCode"
-                      form={form}
+                    <FormField
+                      control={form.control}
                       name="subject_id"
-                      data={sub}
-                      dataType="sub"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Select
+                              items={sub}
+                              label="SubjectCode"
+                              defaultValue={field.value}
+                              onChange={field.onChange}
+                              classNames={{
+                                label:
+                                  "group-data-[filled=true]:-translate-y-4",
+                                trigger: "min-h-unit-15",
+                              }}
+                              renderValue={(items) => {
+                                return items?.map((option: any) => (
+                                  <div key={option.key} className="space-x-2">
+                                    <Code size="sm">{option.data.subject}</Code>
+                                    <span>{option.data.description}</span>
+                                  </div>
+                                ))
+                              }}>
+                              {(data: any) => (
+                                <SelectItem
+                                  key={data.id}
+                                  value={data.id}
+                                  textValue={data.subject}>
+                                  <div key={data.key} className="space-x-2">
+                                    <Code size="sm">{data.subject}</Code>
+                                    <span>{data.description}</span>
+                                  </div>
+                                </SelectItem>
+                              )}
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-
                     <div className="flex gap-4 w-full">
                       <div className="w-full">
                         <FormField
@@ -249,8 +287,7 @@ const NewSched: React.FC<NewSchedProps> = ({
                         />
                       </div>
                     </div>
-
-                    {isSelected && (
+                    {isSelected ? (
                       <>
                         <FormField
                           control={form.control}
@@ -339,8 +376,27 @@ const NewSched: React.FC<NewSchedProps> = ({
                           />
                         </div>
                       </>
+                    ) : (
+                      <FormField
+                        control={form.control}
+                        name="date"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                defaultValue={field.value}
+                                className="w-full"
+                                type="date"
+                                label="End Month"
+                                placeholder=" "
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     )}
-
                     <div className="grid grid-flow-col gap-4 items-center w-full">
                       <FormField
                         control={form.control}

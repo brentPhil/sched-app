@@ -2,13 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import { Button } from "@/components/ui/button"
 import DeleteAlert from "../components/AlertDialog"
 import EditDailog from "../components/EditDialog"
 
 type Subject = {
   id: number
   subject: string | null
+  units: string | null
   description: string
 }
 
@@ -24,6 +24,15 @@ export const SubjectCols: ColumnDef<Subject>[] = [
       const subject = row.original
 
       return <p className=" capitalize">{subject.subject}</p>
+    },
+  },
+  {
+    accessorKey: "units",
+    header: "Units",
+    cell: ({ row }) => {
+      const subject = row.original
+
+      return <p className=" capitalize">{subject.units}</p>
     },
   },
   {

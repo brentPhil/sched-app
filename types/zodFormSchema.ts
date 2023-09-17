@@ -25,6 +25,7 @@ const nonWeekly = z.object({
   room_id: z.coerce.number(),
   subject_id: z.coerce.number(),
   section_id: z.string(),
+  date: z.string(),
   time_from: z.string().regex(/^[0-2]\d:[0-5]\d$/),
   time_to: z.string().regex(/^[0-2]\d:[0-5]\d$/),
 })

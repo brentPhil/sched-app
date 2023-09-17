@@ -35,7 +35,7 @@ export function SubjectUpdateForm({ id }: { id: number }) {
 
       const { data: subject, error } = await supabase
         .from("subjects")
-        .select("subject, description")
+        .select("subject, description, units")
         .eq("id", id)
         .single()
 
@@ -52,6 +52,7 @@ export function SubjectUpdateForm({ id }: { id: number }) {
 
       return {
         subject: subject?.subject ?? "",
+        units: subject?.units as number,
         description: subject?.description ?? "",
       }
     },
@@ -63,6 +64,7 @@ export function SubjectUpdateForm({ id }: { id: number }) {
       .from("subjects")
       .update({
         subject: value.subject,
+        units: value.units,
         description: value.description,
         updated_at: new Date().toISOString(),
       })
@@ -96,6 +98,23 @@ export function SubjectUpdateForm({ id }: { id: number }) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>subject</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={loadingData}
+                  placeholder={loadingData ? "loading data..." : ""}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="units"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Units</FormLabel>
               <FormControl>
                 <Input
                   disabled={loadingData}

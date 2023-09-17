@@ -101,6 +101,7 @@ export interface Database {
         Row: {
           course_id: number | null
           created_at: string | null
+          date: string | null
           daysOfWeek: string | null
           faculty_id: string | null
           from_month: string | null
@@ -117,6 +118,7 @@ export interface Database {
         Insert: {
           course_id?: number | null
           created_at?: string | null
+          date?: string | null
           daysOfWeek?: string | null
           faculty_id?: string | null
           from_month?: string | null
@@ -133,6 +135,7 @@ export interface Database {
         Update: {
           course_id?: number | null
           created_at?: string | null
+          date?: string | null
           daysOfWeek?: string | null
           faculty_id?: string | null
           from_month?: string | null
