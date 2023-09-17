@@ -196,11 +196,10 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
         case "days":
           return (
             <div className="flex flex-col">
-              {schedule.days !== 'invalid input' && (
-                <p className="text-bold text-small truncate capitalize">
-                  {cellValue}
-                </p>
-              )}
+              <p className="text-bold text-small truncate capitalize">
+                {cellValue}
+              </p>
+
               <p className="text-bold text-tiny truncate text-default-400">
                 {schedule.time}
               </p>
@@ -469,7 +468,7 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No users found"} items={sortedItems}>
+      <TableBody emptyContent={"No Schedules found"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (

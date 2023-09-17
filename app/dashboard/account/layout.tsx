@@ -28,7 +28,7 @@ const sidebarNavItems = [
     href: "/dashboard/account/faculty",
   },
   {
-    title: "Section",
+    title: "Sections",
     href: "/dashboard/account/sections",
   },
 ]

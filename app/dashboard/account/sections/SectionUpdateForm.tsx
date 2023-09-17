@@ -18,9 +18,9 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useState } from "react"
 import { PiSpinnerGap } from "react-icons/pi"
 import { useRouter } from "next/navigation"
-import { SectionFormValues, sectionFormSchema } from "@/types/profile_types"
 import { Textarea } from "@/components/ui/textarea"
 import { Database } from "@/types/supabase"
+import { SectionFormValues, sectionFormSchema } from "@/types/profile_types"
 
 export function SectionUpdateForm({ id }: { id: number }) {
   const router = useRouter()
@@ -41,7 +41,7 @@ export function SectionUpdateForm({ id }: { id: number }) {
 
       if (error) {
         toast({
-          title: "Error fetching profile",
+          title: "Error fetching section",
           description: error.message,
           variant: "destructive",
         })
@@ -57,14 +57,13 @@ export function SectionUpdateForm({ id }: { id: number }) {
     },
   })
 
-  async function updateProfile(value: SectionFormValues) {
+  async function updateSection(value: SectionFormValues) {
     setLoading(true)
     let { data, error } = await supabase
       .from("sections")
       .update({
-        section: value.name,
+        name: value.name,
         description: value.description,
-        updated_at: new Date().toISOString(),
       })
       .eq("id", id)
       .select()
@@ -80,7 +79,7 @@ export function SectionUpdateForm({ id }: { id: number }) {
     if (data) {
       toast({
         title: "Update Success",
-        description: "Profile updated successfully",
+        description: "Section updated successfully",
       })
       router.refresh()
       setLoading(false)
@@ -89,7 +88,7 @@ export function SectionUpdateForm({ id }: { id: number }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(updateProfile)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(updateSection)} className="space-y-8">
         <FormField
           control={form.control}
           name="name"

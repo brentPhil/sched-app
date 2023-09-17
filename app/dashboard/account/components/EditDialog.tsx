@@ -13,9 +13,10 @@ import { SubjectUpdateForm } from "../subjects/SubjectUpdateForm"
 import { CourseUpdateForm } from "../courses/CourseUpdateForm"
 import { RoomUpdateForm } from "../rooms/RoomUpdateForm"
 import { FacultyUpdateForm } from "../faculty/FacultyUpdateForm"
+import { SectionUpdateForm } from "../sections/SectionUpdateForm"
 interface EditDailogProps {
   id: number
-  table: "courses" | "subjects" | "rooms" | "faculty" | 'sections'
+  table: "courses" | "subjects" | "rooms" | "faculty" | "sections"
 }
 const EditDailog: React.FC<EditDailogProps> = ({ id, table }) => {
   return (
@@ -41,6 +42,8 @@ const EditDailog: React.FC<EditDailogProps> = ({ id, table }) => {
           <CourseUpdateForm id={id} />
         ) : table === "rooms" ? (
           <RoomUpdateForm id={id} />
+        ) : table === "sections" ? (
+          <SectionUpdateForm id={id} />
         ) : (
           <FacultyUpdateForm id={id} />
         )}
