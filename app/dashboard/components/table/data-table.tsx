@@ -344,7 +344,7 @@ const Data_table: React.FC<Data_tableProps> = ({ sched }) => {
             </Dropdown>
             {/* //Add Button */}
             <Button startContent={<PiPlus />} onPress={onOpen} color="primary">
-              Asign Schedule
+              Assign Schedule
             </Button>
           </div>
         </div>
