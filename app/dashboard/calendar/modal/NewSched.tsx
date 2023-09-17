@@ -66,7 +66,7 @@ const NewSched: React.FC<NewSchedProps> = ({
   faculty,
   rooms,
   sec,
-  id
+  id,
 }) => {
   const { isOpen, onClose, onOpenChange } = useNewSched()
   const [values, setValues] = useState<Selection>(new Set([]))
@@ -78,7 +78,7 @@ const NewSched: React.FC<NewSchedProps> = ({
     resolver: zodResolver(SchedformSchema),
     defaultValues: {
       weeklySched: true,
-      sched_type: '1',
+      sched_type: "1",
     },
   })
   const isSelected = form.watch("weeklySched")
@@ -118,13 +118,14 @@ const NewSched: React.FC<NewSchedProps> = ({
   }
 
   useEffect(() => {
+    id && form.setValue("faculty_id", id)
     if (!isSelected) {
       setValues(new Set([]))
       form.resetField("daysOfWeek")
       form.resetField("from_month")
       form.resetField("to_month")
     }
-  }, [isSelected, form])
+  }, [isSelected, id, form])
 
   return (
     <>

@@ -16,7 +16,6 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { PiTrashFill } from "react-icons/pi"
-import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { Button } from "@nextui-org/react"
 import { useViewSched } from "@/app/hooks/useSchedModal"
 

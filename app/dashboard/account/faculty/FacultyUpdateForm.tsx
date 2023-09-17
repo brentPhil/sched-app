@@ -69,7 +69,7 @@ export function FacultyUpdateForm({ id }: { id: number }) {
         first_name: value.first_name,
         last_name: value.last_name,
         address: value.address,
-        role: '1',
+        role: 'faculty',
         contact_no: value.contact_no,
         updated_at: new Date().toISOString(),
         avatar_url: "",
